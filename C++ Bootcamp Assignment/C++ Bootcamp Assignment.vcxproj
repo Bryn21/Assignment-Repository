@@ -146,7 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BugFix.cpp" />
+    <ClCompile Include="DateTime.cpp" />
+    <ClCompile Include="Meeting.cpp" />
+    <ClCompile Include="Project.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="TimeAllocation.cpp" />
+    <ClCompile Include="WorkDone.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BugFix.h" />
+    <ClInclude Include="DateTime.h" />
+    <ClInclude Include="Meeting.h" />
+    <ClInclude Include="Project.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="TimeAllocation.h" />
+    <ClInclude Include="WorkDone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
