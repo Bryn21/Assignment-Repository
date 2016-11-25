@@ -1,5 +1,5 @@
 #pragma once
-#include "TimeAllocation.h"
+#include "GeneralHeaderFiles.h"
 
 class Meeting : public TimeAllocation
 {
@@ -16,6 +16,9 @@ public:
 	// Returns a string containing the details of the meeting.
 	// The string will be formatted ready to output.
 	std::string getDetails();
+
+	// Create a string used to save the meeting to a text file.
+	std::string save();
 
 private:
 	std::string location;

@@ -1,5 +1,5 @@
 #pragma once
-#include "TimeAllocation.h"
+#include "GeneralHeaderFiles.h"
 
 class BugFix : public TimeAllocation
 {

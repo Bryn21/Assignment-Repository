@@ -16,6 +16,12 @@
     <Filter Include="Source Files\Time Allocations">
       <UniqueIdentifier>{dd96af9d-a0bf-44ed-bddc-ef8cf6af85b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Time Allocations">
+      <UniqueIdentifier>{1c90dccd-c389-4311-8fb1-444305368893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pre-Made Headers">
+      <UniqueIdentifier>{187841f6-09d7-4689-99ff-85ea2d2ec934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -42,27 +48,39 @@
     <ClCompile Include="Project.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DateTime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeAllocation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Meeting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WorkDone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BugFix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Task.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Project.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeAllocation.h">
+      <Filter>Header Files\Time Allocations</Filter>
+    </ClInclude>
+    <ClInclude Include="Meeting.h">
+      <Filter>Header Files\Time Allocations</Filter>
+    </ClInclude>
+    <ClInclude Include="BugFix.h">
+      <Filter>Header Files\Time Allocations</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkDone.h">
+      <Filter>Header Files\Time Allocations</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralHeaderFiles.h">
+      <Filter>Header Files\Pre-Made Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainHeaderFiles.h">
+      <Filter>Header Files\Pre-Made Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
