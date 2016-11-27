@@ -13,11 +13,24 @@ std::string BugFix::getDetails()
 {
 	std::ostringstream oss;
 
-	oss << "\nBug Fix\n"
-		<< "Bug ID: " << ID << '\n'
-		<< "Bug Description: " << description << '\n'
-		<< "Date: " << getStartDate() << '\n'
-		<< "Time taken: " << getDuration() << " Minutes\n";
+	oss << "\n          Bug Fix\n"
+		<< "          Bug ID: " << ID << '\n'
+		<< "          Bug Description: " << description << '\n'
+		<< "          Date: " << getStartDate() << '\n'
+		<< "          Time taken: " << getDuration() << " Minutes\n";
+
+	return oss.str();
+}
+
+std::string BugFix::save()
+{
+	std::ostringstream oss;
+
+	oss << "BugFix" << EL
+		<< getStartDate() << EL
+		<< getEndDate() << EL
+		<< ID << EL
+		<< description << EL;
 
 	return oss.str();
 }

@@ -33,10 +33,10 @@ std::string Task::getDetails()
 {
 	std::ostringstream oss;
 
-	oss << "\nTask: " << name << '\n'
-		<< description << '\n'
-		<< "Start Date: " << getStartDate() << '\n'
-		<< "Deadline: " << getDeadline() << '\n';
+	oss << "\n     Task: " << name << EL
+		<< "     " << description << EL
+		<< "     Start Date: " << getStartDate() << EL
+		<< "     Deadline: " << getDeadline() << EL;
 	
 	return oss.str();
 }
@@ -51,12 +51,19 @@ std::string Task::getTAsString()
 	std::ostringstream oss;
 
 	// Add the name of the task to the oss.
-	oss << '\n' << "Time allocations belonging to the '" << name << "' Task\n";
+	oss << EL << "          Time allocations belonging to " << name << EL;
+
+	for (auto ta : TAs)
+	{
+		oss << EL << "          " << ta->getType();
+	}
+
+	oss << EL;
 
 	// Cycle through each of the time allocations and add them to the oss.
-	for (auto t : TAs)
+	for (auto ta : TAs)
 	{
-		oss << t->getDetails();
+		oss << ta->getDetails();
 	}
 
 	return oss.str();

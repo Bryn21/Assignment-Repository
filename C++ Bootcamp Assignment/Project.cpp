@@ -61,7 +61,14 @@ std::string Project::getTasksString()
 	std::ostringstream oss;
 
 	// Add the name of the project to the oss.
-	oss << '\n' << "Tasks belonging to the '" << name << "' Project\n";
+	oss  << EL << "     Tasks belonging to " << name << EL;
+
+	for (auto t : tasks)
+	{
+		oss << EL << "     " << t.getTaskName();
+	}
+
+	oss << EL;
 
 	for (auto t : tasks)
 	{

@@ -36,12 +36,10 @@ public:
 	// Create a string used to save the task to the text file.
 	std::string save();
 
-	std::string name;
-
 private:
 	DateTime startDate;
 	DateTime deadline;
-	
+	std::string name;
 	std::string description;
 	std::vector<TimeAllocation*> TAs;
 };

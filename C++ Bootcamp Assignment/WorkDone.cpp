@@ -13,10 +13,22 @@ std::string WorkDone::getDetails()
 {
 	std::ostringstream oss;
 
-	oss << "\nWork Done\n"
-		<< "Description: " << description << '\n'
-		<< "Date: " << getStartDate() << '\n'
-		<< "Time taken: " << getDuration() << " Minutes\n";
+	oss << "\n          Work Done\n"
+		<< "          Description: " << description << '\n'
+		<< "          Date: " << getStartDate() << '\n'
+		<< "          Time taken: " << getDuration() << " Minutes\n";
+
+	return oss.str();
+}
+
+std::string WorkDone::save()
+{
+	std::ostringstream oss;
+
+	oss << "WorkDone" << EL
+		<< getStartDate() << EL
+		<< getEndDate() << EL
+		<< description << EL;
 
 	return oss.str();
 }

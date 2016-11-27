@@ -13,6 +13,9 @@ public:
 	// The string will be formatted ready to output.
 	virtual std::string getDetails() = 0;
 
+	// Returns a string containing the type of TA this object is.
+	virtual std::string getType() = 0;
+
 	// Returns the formatted start date for this time allocation.
 	std::string getStartDate();
 

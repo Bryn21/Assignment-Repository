@@ -17,6 +17,9 @@ public:
 	// The string will be formatted ready to output.
 	std::string getDetails();
 
+	// Return a string with the type of TA.
+	std::string getType() { return "Meeting"; };
+
 	// Create a string used to save the meeting to a text file.
 	std::string save();
 

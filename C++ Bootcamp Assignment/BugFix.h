@@ -17,6 +17,12 @@ public:
 	// The string will be formatted ready to output.
 	std::string getDetails();
 
+	// Return a string with the type of TA.
+	std::string getType() { return "Bug Fix"; };
+
+	// Create a string used to save the bug fix to a text file.
+	std::string save();
+
 private:
 	// ID number for the bug.
 	int ID;

@@ -6,6 +6,15 @@ ProjectManager::ProjectManager()
 	setupFile();
 }
 
+ProjectManager::ProjectManager(std::string newFileName)
+{
+	// Change the file name and make sure it ends with '.txt'
+	changeTextFile(newFileName);
+
+	// Setup the current text file using the default text file name.
+	setupFile();
+}
+
 ProjectManager::~ProjectManager()
 {
 }
@@ -13,6 +22,16 @@ ProjectManager::~ProjectManager()
 void ProjectManager::printFileName()
 {
 	std::cout << "\nThe current text file being used is " << fileName << '\n';
+}
+
+std::string ProjectManager::printProject()
+{
+	std::ostringstream oss;
+
+	oss << project.getDetails()
+		<< project.getTasksString();
+	
+	return oss.str();
 }
 
 void ProjectManager::save()
@@ -39,7 +58,7 @@ void ProjectManager::save()
 
 	inout.close();
 
-	std::cout << EL << "File saved to " << fileName << EL;
+	//std::cout << EL << "File saved to " << fileName << EL;
 }
 
 Project& ProjectManager::load()
@@ -63,18 +82,28 @@ Project& ProjectManager::load()
 				std::getline(inout, end);
 				std::getline(inout, text);			// Use text as location.
 				std::getline(inout, description);	// Use description as attendees.
-				// Use text as the task name.
+
+				// Use name as the task name.
 				createMeeting(start, end, text, description, name);
 			}
 			else if (text == "WorkDone")
 			{
 				std::getline(inout, start);
 				std::getline(inout, end);
+				std::getline(inout, description);
+
+				// Use name as the task name.
+				createWorkDone(start, end, description, name);
 			}
 			else if (text == "BugFix")
 			{
 				std::getline(inout, start);
 				std::getline(inout, end);
+				std::getline(inout, text);			// Use text as bugID.
+				std::getline(inout, description); 
+
+				// Use name as the task name.
+				createBugFix(start, end, text, description, name);
 			}			
 		}
 		else if (text == "Task")
@@ -126,15 +155,65 @@ void ProjectManager::createMeeting(std::string start, std::string end, std::stri
 	if (project.checkTask(taskName))
 	{
 		tempTask = project.getTask(taskName);
-		// TODO - Maybe scope problem with the unique pointer.
+		
+		// TODO - Pointer issue?
 		Meeting* meeting = new Meeting(start, end, location, attendees);
 		tempTask->addTimeAllocation(meeting);
 	}
 }
 
+void ProjectManager::createWorkDone(std::string start, std::string end, std::string description, std::string taskName)
+{
+	// Create a pointer to point to the task.
+	Task* tempTask;
+
+	// Only add the meeting if the task exists.
+	if (project.checkTask(taskName))
+	{
+		tempTask = project.getTask(taskName);
+		
+		// TODO - Pointer issue?
+		WorkDone* workDone = new WorkDone(start, end, description);
+		tempTask->addTimeAllocation(workDone);
+	}
+}
+
+void ProjectManager::createBugFix(std::string start, std::string end, std::string bugID, std::string description, std::string taskName)
+{
+	// Create a pointer to point to the task.
+	Task* tempTask;
+
+	// Only add the meeting if the task exists.
+	if (project.checkTask(taskName))
+	{
+		tempTask = project.getTask(taskName);
+		int ID = std::stoi(bugID);
+
+		// TODO - Pointer issue?
+		BugFix* bugFix = new BugFix(start, end, ID, description);
+		tempTask->addTimeAllocation(bugFix);
+	}
+}
+
+void ProjectManager::createBugFix(std::string start, std::string end, int bugID, std::string description, std::string taskName)
+{
+	// Create a pointer to point to the task.
+	Task* tempTask;
+
+	// Only add the meeting if the task exists.
+	if (project.checkTask(taskName))
+	{
+		tempTask = project.getTask(taskName);
+
+		// TODO - Pointer issue?
+		BugFix* bugFix = new BugFix(start, end, bugID, description);
+		tempTask->addTimeAllocation(bugFix);
+	}
+}
+
 void ProjectManager::changeTextFile(std::string newFileName)
 {
-	// TODO Save changes to the old text file first? - Maybe ask the user?
+	// TODO - Save changes to the old text file first? - Maybe ask the user?
 
 	if (newFileName.find(".txt") == std::string::npos)
 	{

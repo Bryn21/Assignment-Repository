@@ -15,6 +15,12 @@ public:
 	// The string will be formatted ready to output.
 	std::string getDetails();
 
+	// Return a string with the type of TA.
+	std::string getType() { return "Work Done"; };
+
+	// Create a string used to save the work done to a text file.
+	std::string save();
+
 private:
 	// A brief description of the work done. 
 	std::string description;
