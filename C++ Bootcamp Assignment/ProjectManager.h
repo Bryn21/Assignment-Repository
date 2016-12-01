@@ -22,7 +22,11 @@ public:
 
 	// Returns a string with all of the project information to be displayed.
 	// The string will be formatted ready to output.
-	std::string printProject();
+	std::string printProject(bool reverseValue = false);
+
+	// Returns a string with only the time allocations for this project
+	// The string will be formatted ready to output.
+	std::string printTAs(bool reverseValue = false);
 
 	// Save the project management information to the current text file being used.
 	void save();
@@ -36,6 +40,9 @@ public:
 
 	// Setup the current text file for use.
 	void setupFile();
+
+	// Returns a string containing the relative file path.
+	std::string getFilePath() { return "../TextFiles/" + fileName; };
 
 
 	// Create a project.
@@ -56,10 +63,12 @@ public:
 	void createBugFix(std::string start, std::string end, int bugID, std::string description, std::string taskName);
 
 private:
-	// Default file being used is "ProjectManagementAssignment.txt".
-	std::string fileName = "ProjectManagementAssignment.txt";
+	// Default file being used is "ProjectTextFile.txt".
+	std::string fileName = "Project.txt";
 
 	// The current project loaded in from the text file.
 	Project project;	
 };
+
+std::ostream& operator << (std::ostream& os, ProjectManager& projectManager);
 

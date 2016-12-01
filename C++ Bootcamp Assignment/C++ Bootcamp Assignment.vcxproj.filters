@@ -51,6 +51,9 @@
     <ClCompile Include="ProjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelperClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DateTime.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files\Pre-Made Headers</Filter>
     </ClInclude>
     <ClInclude Include="ProjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HelperClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

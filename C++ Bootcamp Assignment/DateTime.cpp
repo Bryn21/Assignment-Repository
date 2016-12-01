@@ -36,3 +36,105 @@ int DateTime::getIntTime() const
 {
 	return ((hour * 60) + minute);
 }
+
+bool DateTime::operator > (const DateTime &dateTime)
+{
+	if (year > dateTime.year)
+	{
+		return true;
+	}
+	else if (year < dateTime.year)
+	{
+		return false;
+	}
+
+	if (month > dateTime.month)
+	{
+		return true;
+	}
+	else if (month < dateTime.month)
+	{
+		return false;
+	}
+
+	if (day > dateTime.day)
+	{
+		return true;
+	}
+	else if (day < dateTime.day)
+	{
+		return false;
+	}
+
+	if (hour > dateTime.hour)
+	{
+		return true;
+	}
+	else if (hour < dateTime.hour)
+	{
+		return false;
+	}
+
+	if (minute > dateTime.minute)
+	{
+		return true;
+	}
+	else if (minute < dateTime.minute)
+	{
+		return false;
+	}
+
+	// If the dates are the same then return false.
+	return false;
+}
+
+bool DateTime::operator < (const DateTime &dateTime)
+{
+	if (year > dateTime.year)
+	{
+		return false;
+	}
+	else if (year < dateTime.year)
+	{
+		return true;
+	}
+
+	if (month > dateTime.month)
+	{
+		return false;
+	}
+	else if (month < dateTime.month)
+	{
+		return true;
+	}
+
+	if (day > dateTime.day)
+	{
+		return false;
+	}
+	else if (day < dateTime.day)
+	{
+		return true;
+	}
+
+	if (hour > dateTime.hour)
+	{
+		return false;
+	}
+	else if (hour < dateTime.hour)
+	{
+		return true;
+	}
+
+	if (minute > dateTime.minute)
+	{
+		return false;
+	}
+	else if (minute < dateTime.minute)
+	{
+		return true;
+	}
+
+	// If the dates are the same then return false.
+	return false;
+}

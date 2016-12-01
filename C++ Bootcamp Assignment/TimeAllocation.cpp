@@ -10,9 +10,14 @@ TimeAllocation::TimeAllocation(std::string start, std::string end)
 {
 }
 
-
 TimeAllocation::~TimeAllocation()
 {
+}
+
+std::ostream& operator << (std::ostream& os, TimeAllocation& time)
+{
+	os << time.getDetails();
+	return os;
 }
 
 // Returns the formatted start date for this time allocation.
@@ -43,4 +48,9 @@ int TimeAllocation::getDuration()
 	//TODO - If there is more than a day difference between the start and end time then this time taken returned will be incorrect.
 
 	return end - start;
+}
+
+DateTime TimeAllocation::getStartDateTime()
+{
+	return startDateTime;
 }

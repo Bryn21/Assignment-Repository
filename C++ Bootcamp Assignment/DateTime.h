@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include "HelperClass.h"
 
 class DateTime
 {
@@ -11,6 +12,9 @@ public:
 	DateTime(std::string);             // Parse from a string format.
 	std::string getFormatted() const;  // Return as a formatted string.
 	int getIntTime() const;			   // Return the hour-minutes time in just minutes.
+
+	bool operator>(const DateTime&);
+	bool operator<(const DateTime&);
 
 private:
 	int minute; // 0 to 59

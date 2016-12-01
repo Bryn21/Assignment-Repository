@@ -36,6 +36,12 @@ public:
 	// Create a string used to save the task to the text file.
 	std::string save();
 
+	// The total time spent on all of the time allocations for this task (in minutes).
+	int getTotalTaskTime();
+
+	// Bool used to display the Time Allocations in reverse.
+	bool reverse = false;
+
 private:
 	DateTime startDate;
 	DateTime deadline;
@@ -43,4 +49,6 @@ private:
 	std::string description;
 	std::vector<TimeAllocation*> TAs;
 };
+
+std::ostream& operator << (std::ostream& os, Task& task);
 

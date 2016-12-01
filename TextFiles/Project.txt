@@ -1,0 +1,38 @@
+Project
+11/11/2016 12:00
+12/12/2016 09:00
+Really Important Project
+The project is for doing really important things
+Task
+11/11/2016 12:00
+25/11/2016 12:00
+First Important Task
+Task for doing a very important thing
+TA
+Meeting
+14/11/2016 12:15
+14/11/2016 13:45
+Secret location
+John Doe, John Doe, John Doe
+TA
+WorkDone
+18/11/2016 15:00
+18/11/2016 17:00
+Did some very important work on this important task
+TA
+BugFix
+22/11/2016 03:45
+22/11/2016 03:55
+1
+Encountered a 'bug'.The 'bug' was dealt with
+Task
+18/11/2016 12:15
+25/11/2016 13:15
+Second important task
+A task even more important than the first task
+TA
+BugFix
+20/11/2016 10:00
+20/11/2016 14:00
+2
+Encountered a 'bug'. It won't be bothering us again

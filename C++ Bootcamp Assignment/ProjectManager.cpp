@@ -8,15 +8,30 @@ ProjectManager::ProjectManager()
 
 ProjectManager::ProjectManager(std::string newFileName)
 {
-	// Change the file name and make sure it ends with '.txt'
-	changeTextFile(newFileName);
+	// If name is empty then use the default fileName.
+	if (newFileName == "")
+	{
+		setupFile();
+	}
+	else
+	{
+		// Change the file name and make sure it ends with '.txt'
+		changeTextFile(newFileName);
 
-	// Setup the current text file using the default text file name.
-	setupFile();
+		// Setup the current text file using the default text file name.
+		setupFile();
+	}
 }
 
 ProjectManager::~ProjectManager()
 {
+}
+
+std::ostream& operator << (std::ostream& os, ProjectManager& projectManager)
+{
+	// Slightly redundant as it simply calls the print project function but it still adds the << operator functionality.
+	os << projectManager.printProject();
+	return os;
 }
 
 void ProjectManager::printFileName()
@@ -24,19 +39,38 @@ void ProjectManager::printFileName()
 	std::cout << "\nThe current text file being used is " << fileName << '\n';
 }
 
-std::string ProjectManager::printProject()
+std::string ProjectManager::printProject(bool reverseValue)
 {
-	std::ostringstream oss;
+	// Set the reverse flag in the project.
+	project.reverse = reverseValue;
 
-	oss << project.getDetails()
-		<< project.getTasksString();
+	// Add the project to the oss.
+	std::ostringstream oss;	
+	oss << project;
+
+	// Reset the reverse flag.
+	project.reverse = false;
 	
+	// Return the oss as a string.
+	return oss.str();
+}
+
+std::string ProjectManager::printTAs(bool reverseValue)
+{
+	// Set the reverse flag in the project.
+	project.reverse = reverseValue;
+
+	// Add the project TAs to the oss.
+	std::ostringstream oss;
+	oss << project.getTAsString();
+
+	// Return the oss as a string.
 	return oss.str();
 }
 
 void ProjectManager::save()
 {
-	std::fstream inout(fileName, std::ios::out);
+	std::fstream inout(getFilePath(), std::ios::out);
 
 	// Save the project to the text file.
 	inout << "Project" << EL;
@@ -63,7 +97,7 @@ void ProjectManager::save()
 
 Project& ProjectManager::load()
 {
-	std::fstream inout(fileName, std::ios::in);
+	std::fstream inout(getFilePath(), std::ios::in);
 	std::string start, end, name, description, text;
 
 	while (!inout.eof())
@@ -228,7 +262,9 @@ void ProjectManager::changeTextFile(std::string newFileName)
 
 void ProjectManager::setupFile()
 {
-	std::fstream inout(fileName, std::ios::app);
+	std::fstream inout(getFilePath(), std::ios::app);
 	inout.close();
+
+	load();
 }
 

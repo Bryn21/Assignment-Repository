@@ -12,7 +12,7 @@ public:
 			std::string projectDescription);
 	~Project();
 
-	const auto getTasks() { return tasks; };
+	auto getTasks() { return tasks; };
 
 	// Returns a string containing the details of the project.
 	// The details will be the name, description, start date and deadline.
@@ -32,6 +32,10 @@ public:
 	// The string will be formatted ready to output.
 	std::string getTasksString();
 
+	// Returns a string containing only the time allocations from the project.
+	// The string will be formatted ready to output.
+	std::string getTAsString();
+
 	// Get a task from the project and use a pointer to edit it.
 	Task* getTask(std::string taskName);
 
@@ -41,6 +45,12 @@ public:
 	// Create a string used to save the project to the text file.
 	std::string save();
 
+	// Get the total time for the tasks in the project (in minutes).
+	int getTotalProjectTime();
+
+	// bool used for showing the TA's in reverse order.
+	bool reverse = false;
+
 private:
 	DateTime startDate;
 	DateTime deadline;
@@ -49,3 +59,4 @@ private:
 	std::vector<Task> tasks;
 };
 
+std::ostream& operator << (std::ostream& os, Project& project);

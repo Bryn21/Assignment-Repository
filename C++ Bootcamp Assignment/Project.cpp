@@ -14,6 +14,15 @@ Project::~Project()
 {
 }
 
+std::ostream& operator << (std::ostream& os, Project& project)
+{
+	os << project.getDetails();
+	os << "Total time spent on this project: " << Helper::MinutesToTime(project.getTotalProjectTime()) << EL;
+	os << project.getTasksString();
+	
+	return os;
+}
+
 // Returns the formatted start date for the project as a string.
 std::string Project::getStartDate()
 {
@@ -61,24 +70,74 @@ std::string Project::getTasksString()
 	std::ostringstream oss;
 
 	// Add the name of the project to the oss.
-	oss  << EL << "     Tasks belonging to " << name << EL;
+	oss  << EL << "     Tasks belonging to " << name << ":" << EL;
 
-	for (auto t : tasks)
+	// int for numbering the tasks in the list.
+	int taskNumber = 0;
+
+	// Output the tasks names and while doing this set the reverse flags for each task.
+	for (auto &t : tasks)
 	{
-		oss << EL << "     " << t.getTaskName();
+		t.reverse = reverse;
+		oss << EL << "     " << ++taskNumber << ". " << t.getTaskName();
 	}
 
 	oss << EL;
 
+	// Output the TA information for each task. This loop will make use of the reverse flag. 
 	for (auto t : tasks)
 	{
-		oss << t.getDetails();
-		oss << t.getTAsString();
+		oss << t;
+	}
+
+	// Reset the reverse flag.
+	for (auto &t : tasks)
+	{
+		t.reverse = false;
 	}
 
 	return oss.str();
 
 	// TODO - The tasks need to be returned in a particular order (time order?).
+}
+
+std::string Project::getTAsString()
+{
+	std::ostringstream oss;
+
+	// Add the name of the project to the oss.
+	oss << EL << "     Time allocations belonging to " << name << ":" << EL;
+
+	// int for numbering the tasks in the list.
+	int taskNumber = 0;
+	std::vector<TimeAllocation*> tas;
+
+	// Output the tasks names and while doing this set the reverse flags for each task.
+	for (auto &t : tasks)
+	{
+		for (auto i : t.getTAs())
+		{
+			tas.push_back(i);
+		}
+	}
+
+	if (reverse)
+	{
+		// Sort from newest at the top to oldest at the bottom.
+		std::sort(tas.begin(), tas.end(), [](TimeAllocation* lhs, TimeAllocation* rhs) { return (lhs->getStartDateTime() > rhs->getStartDateTime()); });
+	}
+	else
+	{
+		// Sort from oldest at the top to newest at the bottom.
+		std::sort(tas.begin(), tas.end(), [](TimeAllocation* lhs, TimeAllocation* rhs) { return (lhs->getStartDateTime() < rhs->getStartDateTime()); });
+	}
+
+	for (auto i : tas)
+	{
+		oss << *i;
+	}
+
+	return oss.str();
 }
 
 Task* Project::getTask(std::string taskName)
@@ -118,4 +177,19 @@ std::string Project::save()
 		<< description << EL;
 
 	return oss.str();
+}
+
+int Project::getTotalProjectTime()
+{
+	int projectTime = 0;
+
+	// Loop through each of the tasks.
+	for (auto i : tasks)
+	{
+		// Add the total task time for the total project time in minutes.
+		projectTime += i.getTotalTaskTime();
+	}
+
+	// Return the project time in minutes.
+	return projectTime;
 }

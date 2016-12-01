@@ -15,6 +15,13 @@ Task::~Task()
 {
 }
 
+std::ostream& operator << (std::ostream& os, Task& task)
+{
+	os << task.getDetails();
+	os << task.getTAsString();
+	return os;
+}
+
 // Returns the formatted start date for the task as a string.
 std::string Task::getStartDate()
 {
@@ -36,7 +43,8 @@ std::string Task::getDetails()
 	oss << "\n     Task: " << name << EL
 		<< "     " << description << EL
 		<< "     Start Date: " << getStartDate() << EL
-		<< "     Deadline: " << getDeadline() << EL;
+		<< "     Deadline: " << getDeadline() << EL
+		<< "     Time spent on this task: " << Helper::MinutesToTime(getTotalTaskTime()) << EL;
 	
 	return oss.str();
 }
@@ -51,11 +59,20 @@ std::string Task::getTAsString()
 	std::ostringstream oss;
 
 	// Add the name of the task to the oss.
-	oss << EL << "          Time allocations belonging to " << name << EL;
+	oss << EL << "          Time allocations belonging to " << name << ":" << EL;
+
+	// int for numbering the TA's in the list.
+	int TANumber = 0;
+
+	// Reverse the order of the list for output.
+	if (reverse)
+	{
+		std::reverse(TAs.begin(), TAs.end());
+	}
 
 	for (auto ta : TAs)
 	{
-		oss << EL << "          " << ta->getType();
+		oss << EL << "          " << ++TANumber << ". " << ta->getType();
 	}
 
 	oss << EL;
@@ -63,8 +80,15 @@ std::string Task::getTAsString()
 	// Cycle through each of the time allocations and add them to the oss.
 	for (auto ta : TAs)
 	{
-		oss << ta->getDetails();
+		oss << *ta;
 	}
+
+	// Reverse the order of the list back to the original order.
+	if (reverse)
+	{
+		std::reverse(TAs.begin(), TAs.end());
+	}
+
 
 	return oss.str();
 
@@ -81,5 +105,20 @@ std::string Task::save()
 		<< description << EL;
 
 	return oss.str();
+}
+
+int Task::getTotalTaskTime()
+{
+	int taskTime = 0;
+
+	// Loop through the task allocations to get the duration of each.
+	for (auto i : TAs)
+	{
+		// Add these times to the taskTime which will be in minutes.
+		taskTime += i->getDuration();
+	}
+
+	// Return the task time as the total number of minutes.
+	return taskTime;
 }
 

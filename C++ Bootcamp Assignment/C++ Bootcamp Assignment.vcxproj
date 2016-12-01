@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="BugFix.cpp" />
     <ClCompile Include="DateTime.cpp" />
+    <ClCompile Include="HelperClass.cpp" />
     <ClCompile Include="ProjectManager.cpp" />
     <ClCompile Include="Meeting.cpp" />
     <ClCompile Include="Project.cpp" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="BugFix.h" />
     <ClInclude Include="DateTime.h" />
+    <ClInclude Include="HelperClass.h" />
     <ClInclude Include="ProjectManager.h" />
     <ClInclude Include="GeneralHeaderFiles.h" />
     <ClInclude Include="MainHeaderFiles.h" />
