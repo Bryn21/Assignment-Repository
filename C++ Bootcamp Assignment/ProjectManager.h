@@ -28,6 +28,18 @@ public:
 	// The string will be formatted ready to output.
 	std::string printTAs(bool reverseValue = false);
 
+	// Returns a string containing all of the tasks and passes a reference for the list of task names.
+	// The string will be formtatted ready to output.
+	std::string printTasks(std::vector<std::string> &tasksVector);
+
+	// Returns a string containing the details of the task.
+	// The string will be formatted ready for output.
+	std::string printTaskDetails(std::string taskName);
+
+	// Returns a string containing the details of the project.
+	// The string will be formatted ready to output.
+	std::string printProjectDetails();
+
 	// Save the project management information to the current text file being used.
 	void save();
 
@@ -46,7 +58,7 @@ public:
 
 
 	// Create a project.
-	void createProject(std::string start, std::string end, std::string name, std::string description);
+	void createProject(std::string start = "01/01/2016 00:00", std::string end = "01/01/2017 00:00", std::string name = "New Project", std::string description = "Project management");
 
 	// Create a task and add it to the project.
 	void createTask(std::string start, std::string end, std::string name, std::string description);

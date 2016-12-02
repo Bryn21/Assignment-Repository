@@ -39,6 +39,9 @@ public:
 	// The total time spent on all of the time allocations for this task (in minutes).
 	int getTotalTaskTime();
 
+	// Sort the time allocations into the correct order, from earliest to latest.
+	void sortTAOrder();
+
 	// Bool used to display the Time Allocations in reverse.
 	bool reverse = false;
 

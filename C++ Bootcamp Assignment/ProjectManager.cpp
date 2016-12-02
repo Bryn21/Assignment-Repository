@@ -68,6 +68,21 @@ std::string ProjectManager::printTAs(bool reverseValue)
 	return oss.str();
 }
 
+std::string ProjectManager::printTasks(std::vector<std::string> &tasksVector)
+{
+	return project.getTasks(tasksVector);
+}
+
+std::string ProjectManager::printTaskDetails(std::string taskName)
+{
+	return project.getTask(taskName)->getDetails();
+}
+
+std::string ProjectManager::printProjectDetails()
+{
+	return project.getDetails();
+}
+
 void ProjectManager::save()
 {
 	std::fstream inout(getFilePath(), std::ios::out);
@@ -247,8 +262,6 @@ void ProjectManager::createBugFix(std::string start, std::string end, int bugID,
 
 void ProjectManager::changeTextFile(std::string newFileName)
 {
-	// TODO - Save changes to the old text file first? - Maybe ask the user?
-
 	if (newFileName.find(".txt") == std::string::npos)
 	{
 		newFileName.append(".txt");
@@ -264,6 +277,9 @@ void ProjectManager::setupFile()
 {
 	std::fstream inout(getFilePath(), std::ios::app);
 	inout.close();
+
+	// Create project with default values.
+	createProject();
 
 	load();
 }

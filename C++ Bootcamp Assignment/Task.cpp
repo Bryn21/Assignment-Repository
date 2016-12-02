@@ -52,6 +52,7 @@ std::string Task::getDetails()
 void Task::addTimeAllocation(TimeAllocation *ta)
 {		
 	TAs.push_back(ta);
+	sortTAOrder();
 }
 
 std::string Task::getTAsString()
@@ -91,8 +92,6 @@ std::string Task::getTAsString()
 
 
 	return oss.str();
-
-	// TODO - The time allocations need to be returned in time order (and reverse time order).
 }
 
 std::string Task::save()
@@ -120,5 +119,11 @@ int Task::getTotalTaskTime()
 
 	// Return the task time as the total number of minutes.
 	return taskTime;
+}
+
+void Task::sortTAOrder()
+{
+	// Sort from newest at the top to oldest at the bottom.
+	std::sort(TAs.begin(), TAs.end(), [](TimeAllocation* lhs, TimeAllocation* rhs) { return (lhs->getStartDateTime() > rhs->getStartDateTime()); });
 }
 

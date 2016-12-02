@@ -28,6 +28,10 @@ public:
 	// Add a TA to a particular task.
 	void addTimeAllocationToTask(Task task, TimeAllocation *ta);
 
+	// Returns a string containing the tasks and passes a reference back for the names of the tasks.
+	// The string will be formatted ready to output.
+	std::string getTasks(std::vector<std::string> &tasksVector);
+
 	// Returns a string containing eash of the tasks in the project.
 	// The string will be formatted ready to output.
 	std::string getTasksString();

@@ -17,7 +17,7 @@ Project::~Project()
 std::ostream& operator << (std::ostream& os, Project& project)
 {
 	os << project.getDetails();
-	os << "Total time spent on this project: " << Helper::MinutesToTime(project.getTotalProjectTime()) << EL;
+	os << EL << "Total time spent on this project: " << Helper::MinutesToTime(project.getTotalProjectTime()) << EL;
 	os << project.getTasksString();
 	
 	return os;
@@ -101,12 +101,38 @@ std::string Project::getTasksString()
 	// TODO - The tasks need to be returned in a particular order (time order?).
 }
 
+std::string Project::getTasks(std::vector<std::string> &tasksVector)
+{
+	std::ostringstream oss;
+
+	// Add the name of the project to the oss.
+	oss << EL << "     Tasks belonging to " << name << ":" << EL;
+
+	// Make sure the taskVecotr is clear ready to add the tasks.
+	tasksVector.clear();
+
+	for (auto t : tasks)
+	{
+		tasksVector.push_back(t.getTaskName());
+		oss << EL << "     Task number: " << tasksVector.size();
+		oss << t.getDetails();
+	}
+
+	if (tasksVector.size() == 0)
+	{
+		oss.clear();
+		oss << EL << "     There are currently no tasks in the project" << EL;
+	}
+
+	return oss.str();
+}
+
 std::string Project::getTAsString()
 {
 	std::ostringstream oss;
 
 	// Add the name of the project to the oss.
-	oss << EL << "     Time allocations belonging to " << name << ":" << EL;
+	oss << EL << "          Time allocations belonging to " << name << ":" << EL;
 
 	// int for numbering the tasks in the list.
 	int taskNumber = 0;
