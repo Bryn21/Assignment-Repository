@@ -275,11 +275,9 @@ void ProjectManager::changeTextFile(std::string newFileName)
 
 void ProjectManager::setupFile()
 {
-	std::fstream inout(getFilePath(), std::ios::app);
-	inout.close();
+	std::fstream inout(getFilePath(), std::ios::app);	
 
-	// Create project with default values.
-	createProject();
+	inout.close();
 
 	load();
 }

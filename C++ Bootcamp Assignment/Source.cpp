@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
 		std::cout << EL << "'2' - Load file or create new file. ";
 		std::cout << EL << "'3' - Display only the time allocations.";
 		std::cout << EL << "'4' - Add a time allocation.";
-		std::cout << EL << "'5' - Save the currently loaded project.";
+		std::cout << EL << "'5' - Add a task.";
+		std::cout << EL << "'6' - Save the currently loaded project.";
 
 		std::cout << EL << EL << "'0' - Quit" << EL;
 
@@ -91,13 +92,148 @@ int main(int argc, char *argv[])
 			}
 			case 2:
 			{
+
+				// Clear the screen to display new information.
+				system("CLS");
+
 				// Load a new file.
-				std::cout << EL << "Enter filename to load or new filename to create";
-				std::cout << EL << "New files will be created with default project descriptions" << EL << EL;
+				std::cout << EL << "Enter filename to load or new filename to create" << EL;
 				std::cin >> input;
+
+				// Change the text file in the project manager.
 				pm.changeTextFile(input);
-				pm.load();
-				std::cout << EL << "'" << input << "' loaded successfully." << EL;
+
+				int length = 0;
+
+				// Open the text file.
+				std::fstream inout(pm.getFilePath(), std::ios::app);	
+
+				// Check if the file is empty. If the file is empty then a new file has been created.
+				inout.seekg(0, std::ios::end);
+				length = inout.tellg();
+
+				inout.close();				
+
+				// Determine if the text file is empty or contains an already existing project.
+				if (length == 0)
+				{	
+					std::string startDate, deadLine, name, description;
+
+					std::cout << EL << "New file '" << pm.getFilePath() << "' created." << EL;
+
+					while (true)
+					{
+						std::cout << EL << "Please enter a name for the Project" << EL << EL;
+
+						std::cin.ignore();
+
+						// Get the input from the user.
+						std::getline(std::cin, name);
+
+						// Clear the screen to display new information.
+						system("CLS");
+
+						std::cout << EL << "Please enter a description for the project" << EL << EL;
+
+						// Get the input from the user.
+						std::getline(std::cin, description);
+
+						// Clear the screen to display new information.
+						system("CLS");
+
+						while (true)
+						{
+							std::cout << EL << "Please enter a start date for the project (DD/MM/YYYY HH:MM)" << EL << EL;
+
+							// Get the input from the user.
+							std::getline(std::cin, startDate);
+
+							if (Helper::IsValidDateTime(startDate))
+							{
+								break;
+							}
+							else
+							{
+								std::cout << EL << "Invalid date entered" << std::endl;
+							}
+						}
+
+						// Clear the screen to display new information.
+						system("CLS");
+
+						while (true)
+						{
+							std::cout << EL << "Please enter a deadline date for the project (DD/MM/YYYY HH:MM)" << EL << EL;
+
+							// Get the input from the user.
+							std::getline(std::cin, deadLine);
+
+							if (Helper::IsValidDateTime(deadLine))
+							{
+								break;
+							}
+							else
+							{
+								std::cout << EL << "Invalid date entered" << std::endl;
+							}
+						}
+
+						bool answer = true;
+
+						bool currentAnswer = answer;
+
+						// Clear the screen to display new information.
+						system("CLS");
+
+						std::cout << EL << "These details have been entered:" << EL;
+						std::cout << "Name: " << name << EL
+							<< "Description: " << description << EL
+							<< "Start Date: " << startDate << EL
+							<< "Deadline: " << deadLine << EL;
+
+						std::cout << EL << "Are these details correct?" << EL << "Type 'y' for yes and 'n' for no" << EL;							
+
+						std::cin >> input;
+
+						if (input == "y")
+						{
+							pm.createProject(startDate, deadLine, name, description);
+							pm.save();
+
+							// Clear the screen to display new information.
+							system("CLS");
+
+							std::cout << EL << "The project has been created and saved successfully" << EL;
+
+							break;								
+						}
+						else
+						{
+							// Clear the screen to display new information.
+							system("CLS");
+
+							std::cout << EL << "Would you like to enter the information again?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+
+							std::cin >> input;
+
+							if (input != "y")
+							{
+								std::cout << EL << "The project has been created with default values" << EL;
+								pm.createProject();
+								pm.save();
+								break;
+							} 
+
+							// Clear the screen to display new information.
+							system("CLS");
+						}
+					}
+				}
+				else
+				{
+					pm.load();
+					std::cout << EL << "'" << input << "' loaded successfully." << EL;
+				}
 				break;
 			}
 			case 3:
@@ -371,18 +507,11 @@ int main(int argc, char *argv[])
 						// Output the details of the current project.
 						std::cout << pm.printProjectDetails();
 
-						std::cout << EL << "     Successfully added." << EL;
+						std::cout << EL << "Successfully added." << EL;
 
 						while (true)
-						{
-							// Clear the screen to display new information.
-							system("CLS");
-
-							// Output the details of the current project.
-							std::cout << pm.printProjectDetails();
-
-							std::cout << EL << "     Would you like to save the project? y / n" << EL << EL;
-							std::cout << "     ";
+						{						
+							std::cout << EL << "Would you like to save the project? y / n" << EL << EL;
 
 							std::cin >> input;
 
@@ -440,6 +569,154 @@ int main(int argc, char *argv[])
 				break;
 			}
 			case 5:
+			{
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				std::string startDate, endDate, name, description;
+
+				std::cout << EL << "Please enter a name for the task" << EL;
+
+				std::cin.ignore();
+
+				// Get the input from the user.
+				std::getline(std::cin, name);
+
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				std::cout << EL << "Please enter a description for the task" << EL;
+
+				// Get the input from the user.
+				std::getline(std::cin, description);
+
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				while (true)
+				{
+					std::cout << EL << "Please enter the start date (DD/MM/YYYY HH:MM)" << EL << EL;
+
+					// Get the input from the user.
+					std::getline(std::cin, startDate);
+
+					if (Helper::IsValidDateTime(startDate))
+					{
+						break;
+					}
+					else
+					{
+						std::cout << EL << "Invalid date entered" << std::endl;
+					}
+				}
+
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				while (true)
+				{
+					std::cout << EL << "Please enter the end date (DD/MM/YYYY HH:MM)" << EL << EL;
+
+					// Get the input from the user.
+					std::getline(std::cin, endDate);
+
+					if (Helper::IsValidDateTime(endDate))
+					{
+						break;
+					}
+					else
+					{
+						std::cout << EL << "Invalid date entered" << std::endl;
+					}
+				}
+
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				std::cout << EL << "These details have been entered:" << EL;
+				std::cout << "Name: " << name << EL
+					<< "Description: " << description << EL
+					<< "Start Date: " << startDate << EL
+					<< "End Date: " << endDate << EL;
+
+				std::cout << EL << "Are these details correct?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+
+				std::cin >> input;
+
+				if (input == "y")
+				{
+					// Clear the screen to display new information.
+					system("CLS");
+
+					// Output the details of the current project.
+					std::cout << pm.printProjectDetails();
+
+					// Add the task.
+					pm.createTask(startDate, endDate, name, description);
+
+					std::cout << EL << "Would you like to save the project?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+
+					std::cin >> input;
+
+					// Clear the screen to display new information.
+					system("CLS");
+
+					// Output the details of the current project.
+					std::cout << pm.printProjectDetails();
+
+					if (input == "y")
+					{
+						pm.save();
+						std::cout << EL << "The task has been created and saved successfully" << EL;
+					}
+					else if (input == "n")
+					{
+						std::cout << EL << "The task has been created successfully" << EL;
+					}
+					else
+					{
+						std::cout << EL << "Invalid choice" << EL;
+						std::cout << EL << "Press enter to choose again";
+						std::cin.ignore();
+						std::cin.get();
+					}					
+				}
+				else if (input == "n")
+				{
+					// Clear the screen to display new information.
+					system("CLS");
+
+					// Output the details of the current project.
+					std::cout << pm.printProjectDetails();
+
+					std::cout << EL << "The task creation has been cancelled" << EL;
+				}
+				else
+				{
+					std::cout << EL << "Invalid choice" << EL;
+					std::cout << EL << "Press enter to choose again";
+					std::cin.ignore();
+					std::cin.get();
+				}
+
+				break;
+			}
+			case 6:
 			{
 				// Clear the screen to display new information.
 				system("CLS");
