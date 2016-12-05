@@ -9,27 +9,33 @@ Task
 First Important Task
 Task for doing a very important thing
 TA
-Meeting
-14/11/2016 12:15
-14/11/2016 13:45
-Secret location
-John Doe, John Doe, John Doe
+BugFix
+22/11/2016 03:45
+22/11/2016 03:55
+1
+Encountered a 'bug'.The 'bug' was dealt with
 TA
 WorkDone
 18/11/2016 15:00
 18/11/2016 17:00
 Did some very important work on this important task
 TA
-BugFix
-22/11/2016 03:45
-22/11/2016 03:55
-1
-Encountered a 'bug'.The 'bug' was dealt with
+Meeting
+14/11/2016 12:15
+14/11/2016 13:45
+Secret location
+John Doe, John Doe, John Doe
 Task
 18/11/2016 12:15
 25/11/2016 13:15
 Second important task
 A task even more important than the first task
+TA
+Meeting
+23/11/2016 10:30
+23/11/2016 13:00
+Top Secret
+John Doe, John Doe
 TA
 BugFix
 20/11/2016 10:00
@@ -37,8 +43,12 @@ BugFix
 2
 Encountered a 'bug'. It won't be bothering us again
 TA
-Meeting
-23/11/2016 10:30
-23/11/2016 13:00
-Top Secret
-John Doe, John Doe
+WorkDone
+10/10/2016 12:34
+10/10/2016 13:34
+Farted around for an hour
+Task
+11/11/2016 11:11
+12/12/2017 13:13
+Test Task
+Testing a task

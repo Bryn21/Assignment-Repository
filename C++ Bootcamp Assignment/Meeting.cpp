@@ -14,10 +14,10 @@ std::string Meeting::getDetails()
 	std::ostringstream oss;	
 
 	oss << "\n          Meeting\n"
-		<< "          Location: " << location << '\n'
-		<< "          Attendees: " << listOfAttendees << '\n'
-		<< "          Date: " << getStartDate() << '\n'
-		<< "          Time taken: " << getDuration() << " Minutes\n";
+		<< "          Location: " << location << EL
+		<< "          Attendees: " << listOfAttendees << EL
+		<< "          Date: " << getStartDate() << EL
+		<< "          Time taken: " << Helper::MinutesToTime(getDuration()) << EL;
 
 	return oss.str();
 }

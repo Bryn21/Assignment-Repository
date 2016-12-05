@@ -14,9 +14,9 @@ std::string WorkDone::getDetails()
 	std::ostringstream oss;
 
 	oss << "\n          Work Done\n"
-		<< "          Description: " << description << '\n'
-		<< "          Date: " << getStartDate() << '\n'
-		<< "          Time taken: " << getDuration() << " Minutes\n";
+		<< "          Description: " << description << EL
+		<< "          Date: " << getStartDate() << EL
+		<< "          Time taken: " << Helper::MinutesToTime(getDuration()) << EL;
 
 	return oss.str();
 }

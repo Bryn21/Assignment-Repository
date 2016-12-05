@@ -177,6 +177,8 @@ Task* Project::getTask(std::string taskName)
 	}
 
 	std::cout << "\nThere is no task with the name '" << taskName << "'";
+
+	return nullptr;
 }
 
 bool Project::checkTask(std::string taskName)

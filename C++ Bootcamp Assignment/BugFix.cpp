@@ -14,10 +14,10 @@ std::string BugFix::getDetails()
 	std::ostringstream oss;
 
 	oss << "\n          Bug Fix\n"
-		<< "          Bug ID: " << ID << '\n'
-		<< "          Bug Description: " << description << '\n'
-		<< "          Date: " << getStartDate() << '\n'
-		<< "          Time taken: " << getDuration() << " Minutes\n";
+		<< "          Bug ID: " << ID << EL
+		<< "          Bug Description: " << description << EL
+		<< "          Date: " << getStartDate() << EL
+		<< "          Time taken: " << Helper::MinutesToTime(getDuration()) << EL;
 
 	return oss.str();
 }

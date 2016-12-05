@@ -12,7 +12,8 @@ public:
 			std::string projectDescription);
 	~Project();
 
-	auto getTasks() { return tasks; };
+	// Changed from auto return type to run on C++11
+	std::vector<Task> getTasks() { return tasks; };
 
 	// Returns a string containing the details of the project.
 	// The details will be the name, description, start date and deadline.

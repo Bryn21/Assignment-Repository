@@ -14,7 +14,8 @@ public:
 	
 	~Task();
 
-	const auto getTAs() { return TAs; };
+	// Changed from auto return type to run on C++11.
+	const std::vector<TimeAllocation*> getTAs() { return TAs; };
 
 	// Returns a string containing the details of the task.
 	// The details will be the name, task description, start date and deadline.
