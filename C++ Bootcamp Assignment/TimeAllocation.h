@@ -31,6 +31,8 @@ public:
 	// Get the start date time to do comparisons.
 	DateTime getStartDateTime();
 
+	bool operator==(TimeAllocation*);
+
 private:
 	DateTime startDateTime;
 	DateTime endDateTime;

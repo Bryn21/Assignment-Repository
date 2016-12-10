@@ -1,5 +1,6 @@
 #pragma once
 #include "DateTime.h"
+#include <vector>
 
 #define EL '\n'
 
@@ -16,4 +17,7 @@ namespace Helper
 	// Adds time to a given string that is in a valid format of dateTime.
 	// timeToAdd must be less than 1440 and more than 0.
 	std::string AddTimeToDateTime(std::string dateTime, int timeToAdd);
+
+	// Returns a vector containing the different time allocation types.
+	std::vector<std::string> GetTaTypes();
 }

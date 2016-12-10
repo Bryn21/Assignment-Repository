@@ -21,6 +21,9 @@ public:
 	// The details will be the name, task description, start date and deadline.
 	// The string will be formatted ready to output.
 	std::string getDetails();
+	// Returns a string containing the details for a specific time allocation.
+	// The string will be formatted ready for output.
+	std::string getTADetails(int TANumber);
 	// Returns the formatted start date for the task as a string.
 	std::string getStartDate();
 	// Returns the formatted deadline date for the task as a string.
@@ -29,6 +32,13 @@ public:
 	std::string getTaskName() { return name; }
 
 	void addTimeAllocation(TimeAllocation *ta);
+
+	void deleteTimeAllocation(int TANumber);
+
+	// Returns a string containing each of the time allocations that have been carried out for this task.
+	// Also passes in an integer reference for the TACount. 
+	// The string will be formatted ready to output.
+	std::string getTAsString(int &TACount);
 
 	// Returns a string containing each of the time allocations that have been carried out for this task.
 	// The string will be formatted ready to output.
@@ -45,6 +55,8 @@ public:
 
 	// Bool used to display the Time Allocations in reverse.
 	bool reverse = false;
+
+	bool operator==(const Task&);
 
 private:
 	DateTime startDate;

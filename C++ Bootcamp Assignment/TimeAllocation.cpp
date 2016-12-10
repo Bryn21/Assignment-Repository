@@ -20,6 +20,18 @@ std::ostream& operator << (std::ostream& os, TimeAllocation& time)
 	return os;
 }
 
+bool TimeAllocation::operator==(TimeAllocation *ta)
+{
+	if (getDetails() == ta->getDetails())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 // Returns the formatted start date for this time allocation.
 std::string TimeAllocation::getStartDate()
 {

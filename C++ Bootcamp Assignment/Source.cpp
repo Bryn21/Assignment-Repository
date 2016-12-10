@@ -4,6 +4,11 @@
 
 int main(int argc, char *argv[])
 {
+	// Function declarations.
+
+	void chooseProject(ProjectManager& pm);
+	void createNewProject(ProjectManager& pm);
+
 	// Resize the console window.
 	HWND console = GetConsoleWindow();
 	MoveWindow(console, 200, 20, 800, 1000, TRUE);
@@ -22,11 +27,9 @@ int main(int argc, char *argv[])
 	}	
 
 	// If an empty string is passed in then the default filename is used.
-	ProjectManager pm(fileNameInput);	
+	ProjectManager pm(fileNameInput);		
 
-	std::cout << EL << "Press enter to start" << EL;
-
-	std::cin.get();
+	chooseProject(pm);
 
 	system("CLS");
 
@@ -35,20 +38,39 @@ int main(int argc, char *argv[])
 	{
 		std::cout << pm.printProjectDetails();
 		std::cout << EL << "Menu options:" << EL;
-		std::cout << EL << "'1' - Display current project.";
-		std::cout << EL << "'2' - Load file or create new file. ";
-		std::cout << EL << "'3' - Display only the time allocations.";
-		std::cout << EL << "'4' - Add a time allocation.";
-		std::cout << EL << "'5' - Add a task.";
-		std::cout << EL << "'6' - Save the currently loaded project.";
+		std::cout << EL << "'1' - Display current project.";		
+		std::cout << EL << "'2' - Display only the time allocations for the current project.";
+		std::cout << EL << "'3' - Add a new time allocation.";
+		std::cout << EL << "'4' - Add a new task.";
+		std::cout << EL << "'5' - Add a new project.";
+		std::cout << EL << "'6' - Delete a time allocation.";
+		std::cout << EL << "'7' - Delete a task.";
+		std::cout << EL << "'8' - Delete the current project.";
+		std::cout << EL << "'9' - Save changes made to the project.";
+		std::cout << EL << "'10' - Choose another project from the text file. ";
+		std::cout << EL << "'11' - Load file or create a new file. ";
+		
 
-		std::cout << EL << EL << "'0' - Quit" << EL;
+		std::cout << EL << EL << "'0' - Quit" << EL << EL;
 
 		// Get the input from the user and determine the value entered.
 		// If the value is not a valid option then the default case will be called.
 		std::string input;
 		std::cin >> input;
-		int value = std::stoi(input);
+		int value;
+
+		// Try catch statement for error checking.
+		try
+		{
+			// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+			value = std::stoi(input);
+
+		}
+		catch (...)
+		{
+			// Exception. Assign -1 in order to access the default case for an invalid choice.
+			value = -1;
+		}
 
 		// Quit out when 0 is entered.
 		if (value == 0) break;
@@ -65,11 +87,24 @@ int main(int argc, char *argv[])
 			{
 				// Should the time allocations be shown in ascending or descending order?
 				std::cout << EL << "'1' - Display project with time allocations in ascending order";
-				std::cout << EL << "'2' - Display project with time allocations in decending order" << EL;
+				std::cout << EL << "'2' - Display project with time allocations in decending order" << EL << EL;
 
 				// Get the input from the user.
 				std::cin >> input;
-				int value2 = std::stoi(input);
+				int value2;
+
+				// Try catch statement for error checking.
+				try
+				{
+					// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+					value2 = std::stoi(input);
+
+				}
+				catch (...)
+				{
+					// Exception. Assign 0 to follow the 'Invalid option entered' else statement.
+					value2 = 0;
+				}
 
 				// Clear the screen to display new information.
 				system("CLS");
@@ -90,7 +125,12 @@ int main(int argc, char *argv[])
 				}
 				break;
 			}
-			case 2:
+			case 10:
+			{
+				chooseProject(pm);
+				break;
+			}
+			case 11:
 			{
 
 				// Clear the screen to display new information.
@@ -120,6 +160,7 @@ int main(int argc, char *argv[])
 					std::string startDate, deadLine, name, description;
 
 					std::cout << EL << "New file '" << pm.getFilePath() << "' created." << EL;
+					std::cout << EL << "The new file needs a project" << EL;
 
 					while (true)
 					{
@@ -195,15 +236,19 @@ int main(int argc, char *argv[])
 
 						std::cin >> input;
 
+						// Project pointer set to 0 as there are no projects added yet.
+						// pm.setProjectPointer(0);
+
 						if (input == "y")
-						{
+						{				
+							// Create project will set the project pointer to 1.
 							pm.createProject(startDate, deadLine, name, description);
 							pm.save();
 
 							// Clear the screen to display new information.
 							system("CLS");
 
-							std::cout << EL << "The project has been created and saved successfully" << EL;
+							std::cout << EL << "The project has been created and saved successfully" << EL;							
 
 							break;								
 						}
@@ -219,6 +264,8 @@ int main(int argc, char *argv[])
 							if (input != "y")
 							{
 								std::cout << EL << "The project has been created with default values" << EL;
+
+								// Create project will set the project pointer to 1.
 								pm.createProject();
 								pm.save();
 								break;
@@ -233,18 +280,33 @@ int main(int argc, char *argv[])
 				{
 					pm.load();
 					std::cout << EL << "'" << input << "' loaded successfully." << EL;
+
+					chooseProject(pm);
 				}
 				break;
 			}
-			case 3:
+			case 2:
 			{
 				// Should the time allocations be shown in ascending or descending order?
 				std::cout << EL << "'1' - Display project with oldest time allocation first";
-				std::cout << EL << "'2' - Display project with newest time allocation first" << EL;
+				std::cout << EL << "'2' - Display project with newest time allocation first" << EL << EL;
 
 				// Get the input from the user.
 				std::cin >> input;
-				int value2 = std::stoi(input);
+				int value2;
+
+				// Try catch statement for error checking.
+				try
+				{
+					// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+					value2 = std::stoi(input);
+
+				}
+				catch (...)
+				{
+					// Exception. Assign 0 to follow the 'Invalid option entered' else statement.
+					value2 = 0;
+				}
 
 				// Clear the screen to display new information.
 				system("CLS");
@@ -268,7 +330,7 @@ int main(int argc, char *argv[])
 				}
 				break;
 			}
-			case 4:
+			case 3:
 			{
 				while (true)
 				{
@@ -286,11 +348,25 @@ int main(int argc, char *argv[])
 					std::cout << EL << "     Which task would you like to add a time allocation to?";
 					std::cout << EL << "     If you no longer wish to add a TA then please enter '0'." << EL << EL;
 
-					std::cout << EL << "     Please enter the task number:";
+					std::cout << EL << "     Please enter the task number:" << EL;
+					std::cout << EL << "     ";
 
 					// Get the input from the user.
 					std::cin >> input;
-					int taskNumber = std::stoi(input);
+					int taskNumber;
+
+					// Try catch statement for error checking.
+					try
+					{
+						// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+						taskNumber = std::stoi(input);
+
+					}
+					catch (...)
+					{
+						// Exception. Assign -1 to follow the 'Invalid task number entered' else statement.
+						taskNumber = -1;
+					}
 
 					// Valid value has been entered.
 					if (taskNumber <= tasksVector.size() && taskNumber > 0)
@@ -304,21 +380,36 @@ int main(int argc, char *argv[])
 						// Output the chosen task.
 						std::cout << pm.printTaskDetails(tasksVector[taskNumber - 1]);
 
-						// Time Allocation types are explicitly wrote out and created without any loops.
-						// If a significant amount of different types of Time Allocation were added to the system then this would not be good.
-						std::cout << EL << "     What type of time allocation would you like to add?";
-						std::cout << EL << EL << "     '1' - Meeting";
-						std::cout << EL << "     '2' - Work Done";
-						std::cout << EL << "     '3' - Bug Fix";
-						// std::cout << EL << "     '4 - Other";
+						std::cout << EL << "     What type of time allocation would you like to add?" << EL;
+						int num = 0;
+
+						// A vector containing the different types time allocations obtained through the helper class.
+						for (auto i : Helper::GetTaTypes())
+						{
+							std::cout << EL << "     '" << ++num << "' - " << i;
+						}
 
 						std::cout << EL << EL << "     If you no longer wish to add a TA then please enter '0'." << EL << EL;
 
-						std::cout << EL << "     Please enter the TA type number:";
+						std::cout << EL << "     Please enter the TA type number:" << EL;
+						std::cout << EL << "     ";
 
 						// Get the input from the user.
 						std::cin >> input;
-						int TAType = std::stoi(input);
+						int TAType;
+
+						// Try catch statement for error checking.
+						try
+						{
+							// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+							TAType = std::stoi(input);
+
+						}
+						catch (...)
+						{
+							// Exception. Assign -1 to follow the 'Invalid TA number entered' else statement.
+							TAType = -1;
+						}
 
 						// User wishes to cancel.
 						if (TAType == 0)
@@ -384,7 +475,20 @@ int main(int argc, char *argv[])
 
 								// Get the input from the user.
 								std::cin >> input;
-								TADuration = std::stoi(input);								
+								TADuration;		
+
+								// Try catch statement for error checking.
+								try
+								{
+									// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+									TADuration = std::stoi(input);
+
+								}
+								catch (...)
+								{
+									// Exception. Assign -1 to follow the 'Invalid duration entered' else statement.
+									TADuration = -1;
+								}
 
 								if (TADuration < 0 || TADuration > 1439)
 								{
@@ -459,12 +563,39 @@ int main(int argc, char *argv[])
 								int bugID;
 								std::string bugDescription;
 
-								std::cout << EL << "     Please enter the bugID. Must be above 0" << EL;
-								std::cout << EL << "     ";
+								while (true)
+								{
 
-								// Get the input from the user.
-								std::cin >> input;
-								bugID = std::stoi(input);
+									std::cout << EL << "     Please enter the bug ID. Must be above 0" << EL;
+									std::cout << EL << "     ";
+
+									// Get the input from the user.
+									std::cin >> input;
+									bugID;
+
+									// Try catch statement for error checking.
+									try
+									{
+										// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+										bugID = std::stoi(input);
+
+									}
+									catch (...)
+									{
+										// Exception. Assign 0 to follow the 'Invalid option entered' else statement.
+										bugID = 0;
+									}
+
+									if (bugID > 0)
+									{
+										break;
+									}
+									else
+									{
+										std::cout << EL << "     Invalid bug ID entered" << std::endl;
+									}
+
+								}
 
 								// Clear the screen to display new information.
 								system("CLS");
@@ -486,11 +617,19 @@ int main(int argc, char *argv[])
 								// Add the bug fix
 								pm.createBugFix(TAStartDate, TAEndDate, bugID, bugDescription, tasksVector[taskNumber - 1]);
 							}
-							// Other
+							// Research
 							else if (TAType == 4)
 							{
-								std::cout << "     Other not available yet" << EL;
-								break;
+								std::string researchDescription;
+
+								std::cout << EL << "     Please enter the description for the research" << EL;
+								std::cout << EL << "     ";
+
+								// Get the input from the user.
+								std::getline(std::cin, researchDescription);
+
+								// Add the research.
+								pm.createResearch(TAStartDate, TAEndDate, researchDescription, tasksVector[taskNumber - 1]);								
 							}
 						}
 						else
@@ -568,7 +707,7 @@ int main(int argc, char *argv[])
 				}
 				break;
 			}
-			case 5:
+			case 4:
 			{
 				// Clear the screen to display new information.
 				system("CLS");
@@ -578,7 +717,7 @@ int main(int argc, char *argv[])
 
 				std::string startDate, endDate, name, description;
 
-				std::cout << EL << "Please enter a name for the task" << EL;
+				std::cout << EL << "Please enter a name for the task:" << EL << EL;
 
 				std::cin.ignore();
 
@@ -591,7 +730,7 @@ int main(int argc, char *argv[])
 				// Output the details of the current project.
 				std::cout << pm.printProjectDetails();
 
-				std::cout << EL << "Please enter a description for the task" << EL;
+				std::cout << EL << "Please enter a description for the task:" << EL << EL;
 
 				// Get the input from the user.
 				std::getline(std::cin, description);
@@ -654,7 +793,7 @@ int main(int argc, char *argv[])
 					<< "Start Date: " << startDate << EL
 					<< "End Date: " << endDate << EL;
 
-				std::cout << EL << "Are these details correct?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+				std::cout << EL << "Are these details correct?" << EL << "Type 'y' for yes and 'n' for no" << EL << EL;
 
 				std::cin >> input;
 
@@ -669,7 +808,7 @@ int main(int argc, char *argv[])
 					// Add the task.
 					pm.createTask(startDate, endDate, name, description);
 
-					std::cout << EL << "Would you like to save the project?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+					std::cout << EL << "Would you like to save the project?" << EL << "Type 'y' for yes and 'n' for no" << EL << EL;
 
 					std::cin >> input;
 
@@ -716,7 +855,12 @@ int main(int argc, char *argv[])
 
 				break;
 			}
-			case 6:
+			case 5:
+			{
+				createNewProject(pm);
+				break;
+			}
+			case 9:
 			{
 				// Clear the screen to display new information.
 				system("CLS");
@@ -728,6 +872,354 @@ int main(int argc, char *argv[])
 				pm.save();
 
 				std::cout << EL << "Project successfully saved" << EL;
+				break;
+			}
+			case 8:
+			{
+				// Save any changes made changes.
+				pm.save();
+				
+				// Clear the screen to display new information.
+				system("CLS");
+
+				// Output the details of the current project.
+				std::cout << pm.printProjectDetails();
+
+				while (true)
+				{
+					// Give the user an option to back out.
+					std::cout << EL << "Are you sure you wish to delete the current project?" << EL << "Type 'y' for yes and 'n' for no" << EL << EL;
+
+					std::cin >> input;
+
+					if (input == "y")
+					{
+						// Clear the screen to display new information.
+						system("CLS");
+
+						pm.deleteCurrentProject();
+						std::cout << EL << "The project has been successfully deleted" << EL;
+						break;
+					}
+					else if (input == "n")
+					{
+						// Clear the screen to display new information.
+						system("CLS");
+
+						std::cout << EL << "The project has not been deleted" << EL;
+						break;
+					}
+					else
+					{
+						std::cout << EL << "Invalid answer." << EL;
+					}
+				}
+				
+				// Save the changes to the text file.
+				pm.save();
+
+				// Choose a project.
+				chooseProject(pm);
+				break;
+			}
+			case 6:
+			{
+				while (true)
+				{
+					// Clear the screen to display new information.
+					system("CLS");
+
+					// Output the details of the current project.
+					std::cout << pm.printProjectDetails();
+
+					// Used to store a list of task names.
+					std::vector<std::string> tasksVector = {};
+
+					// Get all of the tasks in the project.
+					std::cout << pm.printTasks(tasksVector);
+
+					if (tasksVector.size() == 0)
+					{
+						break;
+					}
+
+					std::cout << EL << "     Which task would you like to delete a time allocation from?";
+					std::cout << EL << "     If you no longer wish to delete a TA then please enter '0'." << EL;
+
+					std::cout << EL << "     Please enter the task number:" << EL;
+					std::cout << EL << "     ";
+
+					// Get the input from the user.
+					std::cin >> input;
+					int taskNumber;
+
+					// Try catch statement for error checking.
+					try
+					{
+						// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+						taskNumber = std::stoi(input);
+
+					}
+					catch (...)
+					{
+						// Exception. Assign -1 to follow the 'Invalid task number entered' else statement.
+						taskNumber = -1;
+					}
+
+					// Valid value has been entered.
+					if (taskNumber <= tasksVector.size() && taskNumber > 0)
+					{
+						while (true)
+						{
+							// Clear the screen to display new information.
+							system("CLS");
+
+							// Output the details of the current project.
+							std::cout << pm.printProjectDetails();
+
+							// Output the chosen task.
+							std::cout << pm.printTaskDetails(tasksVector[taskNumber - 1]);
+
+							int TACount = 0;
+
+							// Print out the list of TAs for this task.
+							std::cout << EL << pm.printTaskTAs(tasksVector[taskNumber - 1], TACount);
+
+							if (TACount == 0)
+							{
+								std::cout << EL << "     There are no time allocations to delete" << EL;
+								break;
+							}
+
+							std::cout << EL << "     Which time allocation would you like to delete?" << EL;							
+
+							std::cout << EL << EL << "     If you no longer wish to delete a TA then please enter '0'." << EL;
+
+							std::cout << EL << "     Please enter the TA number:" << EL;
+							std::cout << EL << "     ";
+
+							// Get the input from the user.
+							std::cin >> input;
+							int TANumber;
+
+							// Try catch statement for error checking.
+							try
+							{
+								// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+								TANumber = std::stoi(input);
+
+							}
+							catch (...)
+							{
+								// Exception. Assign -1 to follow the 'Invalid TA number entered' else statement.
+								TANumber = -1;
+							}
+
+							// User wishes to cancel.
+							if (TANumber == 0)
+							{
+								// Clear the screen to display new information.
+								system("CLS");
+
+								// Output the details of the current project.
+								std::cout << pm.printProjectDetails();
+								break;
+							}
+							// Valid value has been entered.
+							else if (TANumber <= TACount && TANumber > 0)
+							{								
+								// Clear the screen to display new information.
+								system("CLS");
+
+								// Output the details of the current project.
+								std::cout << pm.printProjectDetails();
+
+								// Output the chosen task.
+								std::cout << pm.printTaskDetails(tasksVector[taskNumber - 1]);								
+								
+								while (true)
+								{
+									// Give the user an option to back out.
+									std::cout << EL << "          Are you sure you wish to delete this time allocation?" << EL << "          Type 'y' for yes and 'n' for no" << EL;
+
+									std::cout << pm.printTADetails(tasksVector[taskNumber - 1], TANumber);
+
+									std::cout << EL << "          ";
+
+									std::cin >> input;
+
+									if (input == "y")
+									{
+										// Clear the screen to display new information.
+										system("CLS");
+
+										// Delete the TA
+										pm.deleteTA(tasksVector[taskNumber - 1], TANumber);
+
+										std::cout << EL << "The time allocation has been successfully deleted" << EL;
+										pm.save();
+										break;
+									}
+									else if (input == "n")
+									{
+										// Clear the screen to display new information.
+										system("CLS");
+
+										std::cout << EL << "The time allocation has not been deleted" << EL;
+										break;
+									}
+									else
+									{
+										std::cout << EL << "          Invalid answer." << EL;
+										std::cout << EL << "          Press enter to continue..." << EL;
+
+										std::cin.ignore();
+										std::cin.get();
+									}
+								}
+								break;
+							}
+							else
+							{
+								std::cout << EL << "     Invalid TA number entered" << EL;
+								std::cout << EL << "     Press enter to continue..." << EL;
+
+								std::cin.ignore();
+								std::cin.get();
+							}
+						}
+						break;
+					}
+					else if (taskNumber == 0)
+					{
+						// Clear the screen to display new information.
+						system("CLS");
+
+						// Output the details of the current project.
+						std::cout << pm.printProjectDetails();
+						break;
+					}
+					else
+					{
+						std::cout << EL << "     Invalid task number entered" << EL;
+						std::cout << EL << "     Press enter to continue..." << EL;
+
+						std::cin.ignore();
+						std::cin.get();
+					}
+				}
+				break;
+			}
+			case 7:
+			{
+				while (true)
+				{
+					// Clear the screen to display new information.
+					system("CLS");
+
+					// Used to store a list of task names.
+					std::vector<std::string> tasksVector = {};
+
+					std::cout << pm.printProjectDetails();
+
+					// Get all of the tasks in the project.
+					std::cout << pm.printTasks(tasksVector);
+
+					if (tasksVector.size() == 0)
+					{
+						break;
+					}
+
+					std::cout << EL << "     Which task would you like to delete?";
+					std::cout << EL << "     If you no longer wish to delete a Task then please enter '0'." << EL;
+
+					std::cout << EL << "     Please enter the task number:" << EL;
+					std::cout << EL << "     ";
+
+					// Get the input from the user.
+					std::cin >> input;
+					int taskNumber;
+
+					// Try catch statement for error checking.
+					try
+					{
+						// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+						taskNumber = std::stoi(input);
+
+					}
+					catch (...)
+					{
+						// Exception. Assign -1 to follow the 'Invalid task number entered' else statement.
+						taskNumber = -1;
+					}
+
+					// Valid value has been entered.
+					if (taskNumber <= tasksVector.size() && taskNumber > 0)
+					{
+						while (true)
+						{
+							// Clear the screen to display new information.
+							system("CLS");
+
+							std::cout << pm.printProjectDetails();
+
+							// Give the user an option to back out.
+							std::cout << EL << "     Are you sure you wish to delete this task?" << EL << "     Type 'y' for yes and 'n' for no" << EL;
+
+							std::cout << pm.printTaskDetails(tasksVector[taskNumber - 1]);
+							std::cout << EL << "     ";
+
+							std::cin >> input;
+
+							if (input == "y")
+							{
+								// Clear the screen to display new information.
+								system("CLS");
+
+								// Delete the task
+								pm.deleteTask(tasksVector[taskNumber - 1]);
+
+								std::cout << EL << "The task has been successfully deleted" << EL;
+								pm.save();
+								break;
+							}
+							else if (input == "n")
+							{
+								// Clear the screen to display new information.
+								system("CLS");
+
+								std::cout << EL << "The task has not been deleted" << EL;
+								break;
+							}
+							else
+							{
+								std::cout << EL << "     Invalid answer." << EL;
+								std::cout << EL << "     Press enter to continue..." << EL;
+
+								std::cin.ignore();
+								std::cin.get();
+							}
+						}
+						break;
+					}
+					else if (taskNumber == 0)
+					{
+						// Clear the screen to display new information.
+						system("CLS");
+
+						// Output the details of the current project.
+						std::cout << pm.printProjectDetails();
+						break;
+					}
+					else
+					{
+						std::cout << EL << "     Invalid task number entered" << EL;
+						std::cout << EL << "     Press enter to continue..." << EL;
+
+						std::cin.ignore();
+						std::cin.get();
+					}
+				}
 				break;
 			}
 			default:
@@ -747,42 +1239,177 @@ int main(int argc, char *argv[])
 	}
 }
 
-// STUFF
+void createNewProject(ProjectManager& pm)
+{
+	void chooseProject(ProjectManager& pm);
 
-//Project project("11/12/2016 12:15", "11/12/2016 13:15", "Project 1", "Description of the project");
+	std::string input, startDate, deadLine, name, description;
 
-//Task task("11/12/2016 12:15", "11/12/2016 13:15", "Task 1", "Description of the task");
+	while (true)
+	{
+		std::cout << EL << "Please enter a name for the Project" << EL << EL;
 
-//project.addTask(task);
+		std::cin.ignore();
 
-//// TODO - Scope problem with the unique pointers.
-//auto meeting = std::make_unique<Meeting>("11/12/2016 12:15", "11/12/2016 13:15", "The Gym", "Alan Davis, Joe Bignell");
+		// Get the input from the user.
+		std::getline(std::cin, name);
 
-//project.addTimeAllocationToTask(task, meeting.get());
+		// Clear the screen to display new information.
+		system("CLS");
 
-//auto workDone = std::make_unique<WorkDone>("11/12/2016 12:15", "11/12/2016 13:15", "Did some work on the assignment");
-//auto bugFix = std::make_unique<BugFix>("11/12/2016 12:15", "11/12/2016 13:15", 1, "Fixed a bug with a DateTime problem");
+		std::cout << EL << "Please enter a description for the project" << EL << EL;
 
-// Meeting meeting = ("11/12/2016 12:15","11/12/2016 13:15", "The Gym", "Alan Davis, Joe Bignell");
-// WorkDone workDone("11/12/2016 12:15", "11/12/2016 13:15", "Did some work on the assignment");
-// BugFix bugFix("11/12/2016 12:15", "11/12/2016 13:15", 1, "Fixed a bug with a DateTime problem");
+		// Get the input from the user.
+		std::getline(std::cin, description);
 
+		// Clear the screen to display new information.
+		system("CLS");
 
-//project.addTimeAllocationToTask(task, workDone.get());
-//project.addTimeAllocationToTask(task, bugFix.get());
+		while (true)
+		{
+			std::cout << EL << "Please enter a start date for the project (DD/MM/YYYY HH:MM)" << EL << EL;
 
-/*pm.createProject("11/12/2016 12:15", "11/12/2016 13:15", "Project 1", "Description of the project");
+			// Get the input from the user.
+			std::getline(std::cin, startDate);
 
-pm.createTask("11/12/2016 12:15", "11/12/2016 13:15", "Task 1", "Description of the task");
+			if (Helper::IsValidDateTime(startDate))
+			{
+				break;
+			}
+			else
+			{
+				std::cout << EL << "Invalid date entered" << std::endl;
+			}
+		}
 
-pm.createTask("11/12/2016 12:15", "11/12/2016 13:15", "Task 2", "Description of the task");
+		// Clear the screen to display new information.
+		system("CLS");
 
-pm.createMeeting("11/12/2016 12:15", "11/12/2016 13:15", "The Gym", "Alan Davis, Joe Bignell", "Task 1");
+		while (true)
+		{
+			std::cout << EL << "Please enter a deadline date for the project (DD/MM/YYYY HH:MM)" << EL << EL;
 
-pm.createWorkDone("11/12/2016 12:15", "11/12/2016 13:15", "Work done description", "Task 1");
+			// Get the input from the user.
+			std::getline(std::cin, deadLine);
 
-pm.createBugFix("11/12/2016 12:15", "11/12/2016 13:15", 1, "Bug Fix Description", "Task 1");
+			if (Helper::IsValidDateTime(deadLine))
+			{
+				break;
+			}
+			else
+			{
+				std::cout << EL << "Invalid date entered" << std::endl;
+			}
+		}
 
-pm.createBugFix("11/12/2016 12:15", "11/12/2016 13:15", 2, "Bug Fix Description", "Task 2");
+		bool answer = true;
 
-pm.save();*/
+		bool currentAnswer = answer;
+
+		// Clear the screen to display new information.
+		system("CLS");
+
+		std::cout << EL << "These details have been entered:" << EL;
+		std::cout << "Name: " << name << EL
+			<< "Description: " << description << EL
+			<< "Start Date: " << startDate << EL
+			<< "Deadline: " << deadLine << EL;
+
+		std::cout << EL << "Are these details correct?" << EL << "Type 'y' for yes and 'n' for no" << EL << EL;
+
+		std::cin >> input;
+
+		if (input == "y")
+		{
+			// Create project will set the project pointer to 1.
+			pm.createProject(startDate, deadLine, name, description);
+			pm.save();
+
+			// Clear the screen to display new information.
+			system("CLS");
+
+			std::cout << EL << "The project has been created and saved successfully" << EL;
+
+			chooseProject(pm);
+
+			break;
+		}
+		else
+		{
+			// Clear the screen to display new information.
+			system("CLS");
+
+			std::cout << EL << "Would you like to enter the information again?" << EL << "Type 'y' for yes and 'n' for no" << EL;
+
+			std::cin >> input;
+
+			if (input != "y")
+			{
+				std::cout << EL << "The project creation has been cancelled" << EL;
+
+				// Create project will set the project pointer to 1.				
+				break;
+			}
+
+			// Clear the screen to display new information.
+			system("CLS");
+		}
+	}
+}
+
+void chooseProject(ProjectManager& pm)
+{
+	// Print out all of the projects 
+	std::cout << pm.printAllProjectDetails();	
+
+	std::string input = "";
+
+	while (true)
+	{
+		if (pm.numberOfProjects() > 0)
+		{
+			std::cout << EL << "Which project would you like to use?" << EL;
+
+			std::cout << EL << "Please enter the project number: " << EL << EL;
+
+			// Get the input from the user.
+			std::cin >> input;
+
+			int projectNumber;
+
+			// Try catch statement for error checking.
+			try
+			{
+				// Assing the numeric value. If a numeric value can not be assigned then an exception will be thrown.
+				projectNumber = std::stoi(input);
+
+			}
+			catch (...)
+			{
+				// Exception. Assign 0 to follow the 'Invalid Project number entered' else statement.
+				projectNumber = 0;
+			}
+
+			// Valid value has been entered.
+			if (projectNumber <= pm.numberOfProjects() && projectNumber > 0)
+			{
+				pm.setProjectPointer(projectNumber);
+				break;
+			}
+			else
+			{
+				std::cout << EL << "Invalid Project number entered" << EL;
+			}
+		}
+		else
+		{
+			while (pm.numberOfProjects() == 0)
+			{
+				std::cout << EL << "Please create a new project." << EL;
+
+				createNewProject(pm);
+			}
+			break;
+		}
+	}
+}

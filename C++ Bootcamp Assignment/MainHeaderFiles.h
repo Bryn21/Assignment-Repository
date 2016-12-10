@@ -4,6 +4,7 @@
 #include "Meeting.h"
 #include "WorkDone.h"
 #include "BugFix.h"
+#include "Research.h"
 #include <memory>
 
 

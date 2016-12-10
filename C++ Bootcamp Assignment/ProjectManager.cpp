@@ -42,14 +42,14 @@ void ProjectManager::printFileName()
 std::string ProjectManager::printProject(bool reverseValue)
 {
 	// Set the reverse flag in the project.
-	project.reverse = reverseValue;
+	projects[projectPointer].reverse = reverseValue;
 
 	// Add the project to the oss.
 	std::ostringstream oss;	
-	oss << project;
+	oss << projects[projectPointer];
 
 	// Reset the reverse flag.
-	project.reverse = false;
+	projects[projectPointer].reverse = false;
 	
 	// Return the oss as a string.
 	return oss.str();
@@ -58,62 +58,104 @@ std::string ProjectManager::printProject(bool reverseValue)
 std::string ProjectManager::printTAs(bool reverseValue)
 {
 	// Set the reverse flag in the project.
-	project.reverse = reverseValue;
+	projects[projectPointer].reverse = reverseValue;
 
 	// Add the project TAs to the oss.
 	std::ostringstream oss;
-	oss << project.getTAsString();
+	oss << projects[projectPointer].getTAsString();
 
 	// Return the oss as a string.
 	return oss.str();
 }
 
+std::string ProjectManager::printTADetails(std::string taskName, int TANumber)
+{
+	return projects[projectPointer].getTask(taskName)->getTADetails(TANumber);
+}
+
 std::string ProjectManager::printTasks(std::vector<std::string> &tasksVector)
 {
-	return project.getTasks(tasksVector);
+	return projects[projectPointer].getTasks(tasksVector);
 }
 
 std::string ProjectManager::printTaskDetails(std::string taskName)
 {
-	return project.getTask(taskName)->getDetails();
+	return projects[projectPointer].getTask(taskName)->getDetails();
+}
+
+std::string ProjectManager::printTaskTAs(std::string taskName, int &TACount)
+{
+	return projects[projectPointer].getTask(taskName)->getTAsString(TACount);
 }
 
 std::string ProjectManager::printProjectDetails()
 {
-	return project.getDetails();
+	return projects[projectPointer].getDetails();
+}
+
+std::string ProjectManager::printAllProjectDetails()
+{
+	std::ostringstream oss;
+	int pNum = 0;
+
+	// Add the name of the project to the oss.
+	oss << EL << "The projects loaded in from '" << getFilePath() << "' are:" << EL;;
+
+	for (auto p : projects)
+	{
+		oss << EL << "Project number: " << ++pNum ;
+		oss << p.getDetails();
+	}
+
+	if (projects.size() == 0)
+	{
+		oss.clear();
+		oss << EL << "The file loaded in contains no projects" << EL;
+	}
+
+	return oss.str();
+}
+
+int ProjectManager::numberOfProjects()
+{
+	return projects.size();
 }
 
 void ProjectManager::save()
 {
 	std::fstream inout(getFilePath(), std::ios::out);
 
-	// Save the project to the text file.
-	inout << "Project" << EL;
-	inout << project.save();		
-
-	// Go through the tasks and save them ot the text file.
-	for (auto t : project.getTasks())
+	for (auto p : projects)
 	{
-		inout << "Task" << EL;
-		inout << t.save();		
+		// Save the project to the text file.
+		inout << "Project" << EL;
+		inout << p.save();
 
-		// Go through the time allocations for the task and save them to the text file.
-		for (auto ta : t.getTAs())
+		// Go through the tasks and save them ot the text file.
+		for (auto t : p.getTasks())
 		{
-			inout << "TA" << EL;
-			inout << ta->save();
+			inout << "Task" << EL;
+			inout << t.save();
+
+			// Go through the time allocations for the task and save them to the text file.
+			for (auto ta : t.getTAs())
+			{
+				inout << "TA" << EL;
+				inout << ta->save();
+			}
 		}
 	}
 
 	inout.close();
-
-	//std::cout << EL << "File saved to " << fileName << EL;
 }
 
-Project& ProjectManager::load()
+void ProjectManager::load()
 {
 	std::fstream inout(getFilePath(), std::ios::in);
 	std::string start, end, name, description, text;
+
+	projectPointer = -1;
+	projects.clear();
 
 	while (!inout.eof())
 	{
@@ -153,7 +195,16 @@ Project& ProjectManager::load()
 
 				// Use name as the task name.
 				createBugFix(start, end, text, description, name);
-			}			
+			}	
+			else if (text == "Research")
+			{
+				std::getline(inout, start);
+				std::getline(inout, end);		
+				std::getline(inout, description);
+
+				// Use name as the task name.
+				createResearch(start, end, description, name);
+			}
 		}
 		else if (text == "Task")
 		{
@@ -176,22 +227,33 @@ Project& ProjectManager::load()
 	}
 
 	inout.close();
+}
 
-	return project;
+void ProjectManager::setProjectPointer(int projectNumber)
+{
+	projectPointer = projectNumber - 1;
+
+	// If project pointer is not a valud number then by default use the first project.
+	if (projectPointer > projects.size() || projectPointer < -1)
+	{
+		// Re assign the value to be 0.
+		projectPointer = 0;
+	}
 }
 
 void ProjectManager::createProject(std::string start, std::string end, std::string name, std::string description)
 {	
-	project = Project(start, end, name, description);
+	projects.push_back(Project(start, end, name, description));
+	projectPointer++;
 }
 
 void ProjectManager::createTask(std::string start, std::string end, std::string name, std::string description)
 {
 	Task task(start, end, name, description);
 
-	if (!project.checkTask(name))
+	if (!projects[projectPointer].checkTask(name))
 	{
-		project.addTask(task);
+		projects[projectPointer].addTask(task);
 	}
 }
 
@@ -201,9 +263,9 @@ void ProjectManager::createMeeting(std::string start, std::string end, std::stri
 	Task* tempTask;
 
 	// Only add the meeting if the task exists.
-	if (project.checkTask(taskName))
+	if (projects[projectPointer].checkTask(taskName))
 	{
-		tempTask = project.getTask(taskName);
+		tempTask = projects[projectPointer].getTask(taskName);
 		
 		// TODO - Pointer issue?
 		Meeting* meeting = new Meeting(start, end, location, attendees);
@@ -217,9 +279,9 @@ void ProjectManager::createWorkDone(std::string start, std::string end, std::str
 	Task* tempTask;
 
 	// Only add the meeting if the task exists.
-	if (project.checkTask(taskName))
+	if (projects[projectPointer].checkTask(taskName))
 	{
-		tempTask = project.getTask(taskName);
+		tempTask = projects[projectPointer].getTask(taskName);
 		
 		// TODO - Pointer issue?
 		WorkDone* workDone = new WorkDone(start, end, description);
@@ -233,12 +295,11 @@ void ProjectManager::createBugFix(std::string start, std::string end, std::strin
 	Task* tempTask;
 
 	// Only add the meeting if the task exists.
-	if (project.checkTask(taskName))
+	if (projects[projectPointer].checkTask(taskName))
 	{
-		tempTask = project.getTask(taskName);
+		tempTask = projects[projectPointer].getTask(taskName);
 		int ID = std::stoi(bugID);
 
-		// TODO - Pointer issue?
 		BugFix* bugFix = new BugFix(start, end, ID, description);
 		tempTask->addTimeAllocation(bugFix);
 	}
@@ -250,14 +311,44 @@ void ProjectManager::createBugFix(std::string start, std::string end, int bugID,
 	Task* tempTask;
 
 	// Only add the meeting if the task exists.
-	if (project.checkTask(taskName))
+	if (projects[projectPointer].checkTask(taskName))
 	{
-		tempTask = project.getTask(taskName);
+		tempTask = projects[projectPointer].getTask(taskName);
 
-		// TODO - Pointer issue?
 		BugFix* bugFix = new BugFix(start, end, bugID, description);
 		tempTask->addTimeAllocation(bugFix);
 	}
+}
+
+void ProjectManager::createResearch(std::string start, std::string end, std::string description, std::string taskName)
+{
+	// Create a pointer to point to the task.
+	Task* tempTask;
+
+	// Only add the meeting if the task exists.
+	if (projects[projectPointer].checkTask(taskName))
+	{
+		tempTask = projects[projectPointer].getTask(taskName);
+
+		Research* research = new Research(start, end, description);
+		tempTask->addTimeAllocation(research);
+	}
+}
+
+void ProjectManager::deleteCurrentProject()
+{
+	// Erase the project using the erase-remove idiom.
+	projects.erase(std::remove(projects.begin(), projects.end(), projects[projectPointer]), projects.end());
+}
+
+void ProjectManager::deleteTask(std::string taskName)
+{
+	projects[projectPointer].deleteTask(projects[projectPointer].getTask(taskName));
+}
+
+void ProjectManager::deleteTA(std::string taskName, int TANumber)
+{
+	projects[projectPointer].deleteTimeAllocation(projects[projectPointer].getTask(taskName), TANumber);
 }
 
 void ProjectManager::changeTextFile(std::string newFileName)

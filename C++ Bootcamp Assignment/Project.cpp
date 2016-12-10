@@ -23,6 +23,19 @@ std::ostream& operator << (std::ostream& os, Project& project)
 	return os;
 }
 
+bool Project::operator==(const Project &project)
+{
+	if (name == project.name &&
+		description == project.description)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 // Returns the formatted start date for the project as a string.
 std::string Project::getStartDate()
 {
@@ -63,6 +76,17 @@ void Project::addTimeAllocationToTask(Task task, TimeAllocation *ta)
 			t.addTimeAllocation(ta);
 		}
 	}
+}
+
+void Project::deleteTask(Task *task)
+{
+	// Erase the task using the erase-remove idiom.
+	tasks.erase(std::remove(tasks.begin(), tasks.end(), *task), tasks.end());
+}
+
+void Project::deleteTimeAllocation(Task *task, int TANumber)
+{
+	task->deleteTimeAllocation(TANumber);
 }
 
 std::string Project::getTasksString()

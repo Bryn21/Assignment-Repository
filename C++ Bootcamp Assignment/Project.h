@@ -23,11 +23,20 @@ public:
 	std::string getStartDate();
 	// Returns the formatted deadline date for the project as a string.
 	std::string getDeadline();
+	// Returns the name of the project.
+	std::string getProjectName() { return name; }
 
 	// Add a task to the project.
 	void addTask(Task task);
 	// Add a TA to a particular task.
 	void addTimeAllocationToTask(Task task, TimeAllocation *ta);
+
+	// Delete a task from the project.
+	void deleteTask(Task *task);
+
+	// Delete a TA from a task.
+	void deleteTimeAllocation(Task *task, int TANumber);
+
 
 	// Returns a string containing the tasks and passes a reference back for the names of the tasks.
 	// The string will be formatted ready to output.
@@ -55,6 +64,8 @@ public:
 
 	// bool used for showing the TA's in reverse order.
 	bool reverse = false;
+
+	bool operator==(const Project&);
 
 private:
 	DateTime startDate;

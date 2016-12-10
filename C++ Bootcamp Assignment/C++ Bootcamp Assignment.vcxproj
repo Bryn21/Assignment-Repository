@@ -152,6 +152,7 @@
     <ClCompile Include="ProjectManager.cpp" />
     <ClCompile Include="Meeting.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="Research.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="TimeAllocation.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="MainHeaderFiles.h" />
     <ClInclude Include="Meeting.h" />
     <ClInclude Include="Project.h" />
+    <ClInclude Include="Research.h" />
     <ClInclude Include="Task.h" />
     <ClInclude Include="TimeAllocation.h" />
     <ClInclude Include="WorkDone.h" />

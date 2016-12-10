@@ -158,4 +158,11 @@ namespace Helper
 		oss << std::setw(2) << minute;
 		return oss.str();
 	}
+
+	std::vector<std::string> GetTaTypes()
+	{
+		// Return a vector containing the different types.
+		// Still added to the list explicitly but an improvement.
+		return { "Meeting", "Work Done", "Bug Fix", "Research" };
+	}
 }

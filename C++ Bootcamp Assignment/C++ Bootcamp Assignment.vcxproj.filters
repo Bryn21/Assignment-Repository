@@ -54,6 +54,9 @@
     <ClCompile Include="HelperClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Research.cpp">
+      <Filter>Source Files\Time Allocations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DateTime.h">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="HelperClass.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Research.h">
+      <Filter>Header Files\Time Allocations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

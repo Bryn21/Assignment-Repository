@@ -22,6 +22,19 @@ std::ostream& operator << (std::ostream& os, Task& task)
 	return os;
 }
 
+bool Task::operator==(const Task &task)
+{
+	if (name == task.name &&
+		description == task.description)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 // Returns the formatted start date for the task as a string.
 std::string Task::getStartDate()
 {
@@ -49,13 +62,34 @@ std::string Task::getDetails()
 	return oss.str();
 }
 
+std::string Task::getTADetails(int TANumber)
+{
+	return TAs[TANumber - 1]->getDetails();
+}
+
 void Task::addTimeAllocation(TimeAllocation *ta)
 {		
 	TAs.push_back(ta);
 	sortTAOrder();
 }
 
+void Task::deleteTimeAllocation(int TANumber)
+{
+	// Create a temporary pointer to the Time Allocation.
+	TimeAllocation * ta = TAs[TANumber - 1];
+
+	// Erase the TA using the erase-remove idiom.
+	TAs.erase(std::remove(TAs.begin(), TAs.end(), ta), TAs.end());
+}
+
 std::string Task::getTAsString()
+{
+	int TACount = 0;
+
+	return getTAsString(TACount);
+}
+
+std::string Task::getTAsString(int &TACount)
 {
 	std::ostringstream oss;
 
@@ -63,7 +97,7 @@ std::string Task::getTAsString()
 	oss << EL << "          Time allocations belonging to " << name << ":" << EL;
 
 	// int for numbering the TA's in the list.
-	int TANumber = 0;
+	TACount = 0;
 
 	// Reverse the order of the list for output.
 	if (reverse)
@@ -73,7 +107,7 @@ std::string Task::getTAsString()
 
 	for (auto ta : TAs)
 	{
-		oss << EL << "          " << ++TANumber << ". " << ta->getType();
+		oss << EL << "          " << ++TACount << ". " << ta->getType();
 	}
 
 	oss << EL;
@@ -89,7 +123,6 @@ std::string Task::getTAsString()
 	{
 		std::reverse(TAs.begin(), TAs.end());
 	}
-
 
 	return oss.str();
 }
