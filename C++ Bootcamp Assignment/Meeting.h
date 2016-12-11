@@ -15,13 +15,13 @@ public:
 
 	// Returns a string containing the details of the meeting.
 	// The string will be formatted ready to output.
-	std::string getDetails();
+	std::string getDetails() const;
 
 	// Return a string with the type of TA.
-	std::string getType() { return "Meeting"; };
+	std::string getType() const { return "Meeting"; };
 
 	// Create a string used to save the meeting to a text file.
-	std::string save();
+	std::string save() const;
 
 private:
 	std::string location;

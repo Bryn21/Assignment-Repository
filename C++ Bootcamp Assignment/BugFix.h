@@ -15,13 +15,13 @@ public:
 
 	// Returns a string containing the details of the bug fix.
 	// The string will be formatted ready to output.
-	std::string getDetails();
+	std::string getDetails() const;
 
 	// Return a string with the type of TA.
-	std::string getType() { return "Bug Fix"; };
+	std::string getType() const { return "Bug Fix"; };
 
 	// Create a string used to save the bug fix to a text file.
-	std::string save();
+	std::string save() const;
 
 private:
 	// ID number for the bug.

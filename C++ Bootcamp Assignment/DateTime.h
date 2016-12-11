@@ -9,7 +9,7 @@ class DateTime
 public:
 	DateTime();
 	~DateTime();
-	DateTime(std::string);             // Parse from a string format.
+	DateTime(std::string);			   // Parse from a string format.
 	std::string getFormatted() const;  // Return as a formatted string.
 	int getIntTime() const;			   // Return the hour-minutes time in just minutes.
 

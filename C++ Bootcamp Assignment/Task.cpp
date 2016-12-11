@@ -36,20 +36,20 @@ bool Task::operator==(const Task &task)
 }
 
 // Returns the formatted start date for the task as a string.
-std::string Task::getStartDate()
+std::string Task::getStartDate() const
 {
 	return startDate.getFormatted();
 }
 
 // Returns the formatted deadline date for the task as a string.
-std::string Task::getDeadline()
+std::string Task::getDeadline() const
 {
 	return deadline.getFormatted();
 }
 
 // Returns a string containing the details for the task.
 // The string is formatted ready to output.
-std::string Task::getDetails()
+std::string Task::getDetails()  const
 {
 	std::ostringstream oss;
 
@@ -62,7 +62,7 @@ std::string Task::getDetails()
 	return oss.str();
 }
 
-std::string Task::getTADetails(int TANumber)
+std::string Task::getTADetails(int TANumber)  const
 {
 	return TAs[TANumber - 1]->getDetails();
 }
@@ -82,14 +82,14 @@ void Task::deleteTimeAllocation(int TANumber)
 	TAs.erase(std::remove(TAs.begin(), TAs.end(), ta), TAs.end());
 }
 
-std::string Task::getTAsString()
+std::string Task::getTAsString() 
 {
 	int TACount = 0;
 
 	return getTAsString(TACount);
 }
 
-std::string Task::getTAsString(int &TACount)
+std::string Task::getTAsString(int &TACount) 
 {
 	std::ostringstream oss;
 
@@ -127,7 +127,7 @@ std::string Task::getTAsString(int &TACount)
 	return oss.str();
 }
 
-std::string Task::save()
+std::string Task::save()  const
 {
 	std::ostringstream oss;
 
@@ -139,7 +139,7 @@ std::string Task::save()
 	return oss.str();
 }
 
-int Task::getTotalTaskTime()
+int Task::getTotalTaskTime()  const
 {
 	int taskTime = 0;
 

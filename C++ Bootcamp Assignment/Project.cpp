@@ -37,20 +37,20 @@ bool Project::operator==(const Project &project)
 }
 
 // Returns the formatted start date for the project as a string.
-std::string Project::getStartDate()
+std::string Project::getStartDate() const
 {
 	return startDate.getFormatted();
 }
 
 // Returns the formatted deadline date for the project as a string.
-std::string Project::getDeadline()
+std::string Project::getDeadline() const
 {
 	return deadline.getFormatted();
 }
 
 // Returns a string containing the details for the project.
 // The string is formatted ready to output.
-std::string Project::getDetails()
+std::string Project::getDetails() const
 {
 	std::ostringstream oss;
 
@@ -125,7 +125,7 @@ std::string Project::getTasksString()
 	// TODO - The tasks need to be returned in a particular order (time order?).
 }
 
-std::string Project::getTasks(std::vector<std::string> &tasksVector)
+std::string Project::getTasks(std::vector<std::string> &tasksVector) const
 {
 	std::ostringstream oss;
 
@@ -151,7 +151,7 @@ std::string Project::getTasks(std::vector<std::string> &tasksVector)
 	return oss.str();
 }
 
-std::string Project::getTAsString()
+std::string Project::getTAsString() 
 {
 	std::ostringstream oss;
 
@@ -190,7 +190,7 @@ std::string Project::getTAsString()
 	return oss.str();
 }
 
-Task* Project::getTask(std::string taskName)
+Task* Project::getTask(std::string taskName) 
 {
 	for (auto &t : tasks)
 	{
@@ -205,7 +205,7 @@ Task* Project::getTask(std::string taskName)
 	return nullptr;
 }
 
-bool Project::checkTask(std::string taskName)
+bool Project::checkTask(std::string taskName) const
 {
 	for (auto &t : tasks)
 	{
@@ -219,7 +219,7 @@ bool Project::checkTask(std::string taskName)
 	std::cout << "\nThere is no task with the name '" << taskName << "'";
 }
 
-std::string Project::save()
+std::string Project::save() const
 {
 	std::ostringstream oss;
 
@@ -231,7 +231,7 @@ std::string Project::save()
 	return oss.str();
 }
 
-int Project::getTotalProjectTime()
+int Project::getTotalProjectTime() const
 {
 	int projectTime = 0;
 

@@ -11,25 +11,25 @@ public:
 
 	// Returns a string containing the details of the time allocation.
 	// The string will be formatted ready to output.
-	virtual std::string getDetails() = 0;	
+	virtual std::string getDetails() const = 0 ;
 
 	// Returns a string containing the type of TA this object is.
-	virtual std::string getType() = 0;
+	virtual std::string getType() const = 0;
 
 	// Returns the formatted start date for this time allocation.
-	std::string getStartDate();
+	std::string getStartDate() const;
 
 	// Returns the formatted end date for this time allocation.
-	std::string getEndDate();
+	std::string getEndDate() const;
 
 	// Return the time from the start to the finish of the time allocation (in minutes).
-	int getDuration();
+	int getDuration() const;
 
 	// Create a string used to save the time allocation.
-	virtual std::string save() = 0;
+	virtual std::string save() const  = 0;
 
 	// Get the start date time to do comparisons.
-	DateTime getStartDateTime();
+	DateTime getStartDateTime() const;
 
 	bool operator==(TimeAllocation*);
 

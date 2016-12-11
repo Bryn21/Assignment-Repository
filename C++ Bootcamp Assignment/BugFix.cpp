@@ -9,7 +9,7 @@ BugFix::~BugFix()
 {
 }
 
-std::string BugFix::getDetails()
+std::string BugFix::getDetails() const
 {
 	std::ostringstream oss;
 
@@ -22,7 +22,7 @@ std::string BugFix::getDetails()
 	return oss.str();
 }
 
-std::string BugFix::save()
+std::string BugFix::save() const
 {
 	std::ostringstream oss;
 

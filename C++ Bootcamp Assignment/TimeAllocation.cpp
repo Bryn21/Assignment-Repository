@@ -33,19 +33,19 @@ bool TimeAllocation::operator==(TimeAllocation *ta)
 }
 
 // Returns the formatted start date for this time allocation.
-std::string TimeAllocation::getStartDate()
+std::string TimeAllocation::getStartDate() const
 {
 	return startDateTime.getFormatted();
 }
 
 // Returns the formatted end date for this time allocation.
-std::string TimeAllocation::getEndDate()
+std::string TimeAllocation::getEndDate() const
 {
 	return endDateTime.getFormatted();
 }
 
 // Return the time from the start to the finish of the time allocation.
-int TimeAllocation::getDuration()
+int TimeAllocation::getDuration() const
 {
 	int start(startDateTime.getIntTime());
 	int end(endDateTime.getIntTime());
@@ -62,7 +62,7 @@ int TimeAllocation::getDuration()
 	return end - start;
 }
 
-DateTime TimeAllocation::getStartDateTime()
+DateTime TimeAllocation::getStartDateTime() const
 {
 	return startDateTime;
 }

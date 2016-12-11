@@ -34,7 +34,7 @@ std::ostream& operator << (std::ostream& os, ProjectManager& projectManager)
 	return os;
 }
 
-void ProjectManager::printFileName()
+void ProjectManager::printFileName() const
 {
 	std::cout << "\nThe current text file being used is " << fileName << '\n';
 }
@@ -73,7 +73,7 @@ std::string ProjectManager::printTADetails(std::string taskName, int TANumber)
 	return projects[projectPointer].getTask(taskName)->getTADetails(TANumber);
 }
 
-std::string ProjectManager::printTasks(std::vector<std::string> &tasksVector)
+std::string ProjectManager::printTasks(std::vector<std::string> &tasksVector) const
 {
 	return projects[projectPointer].getTasks(tasksVector);
 }
@@ -88,12 +88,12 @@ std::string ProjectManager::printTaskTAs(std::string taskName, int &TACount)
 	return projects[projectPointer].getTask(taskName)->getTAsString(TACount);
 }
 
-std::string ProjectManager::printProjectDetails()
+std::string ProjectManager::printProjectDetails() const
 {
 	return projects[projectPointer].getDetails();
 }
 
-std::string ProjectManager::printAllProjectDetails()
+std::string ProjectManager::printAllProjectDetails() const
 {
 	std::ostringstream oss;
 	int pNum = 0;
@@ -116,12 +116,12 @@ std::string ProjectManager::printAllProjectDetails()
 	return oss.str();
 }
 
-int ProjectManager::numberOfProjects()
+int ProjectManager::numberOfProjects() const
 {
 	return projects.size();
 }
 
-void ProjectManager::save()
+void ProjectManager::save() const
 {
 	std::fstream inout(getFilePath(), std::ios::out);
 

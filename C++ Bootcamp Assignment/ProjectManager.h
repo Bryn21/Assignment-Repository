@@ -19,7 +19,7 @@ public:
 	~ProjectManager();
 
 	// Prints the name of the current text file being used.
-	void printFileName();
+	void printFileName() const;
 
 	// Returns a string with all of the project information to be displayed.
 	// The string will be formatted ready to output.
@@ -35,7 +35,7 @@ public:
 
 	// Returns a string containing all of the tasks and passes a reference for the list of task names.
 	// The string will be formtatted ready to output.
-	std::string printTasks(std::vector<std::string> &tasksVector);
+	std::string printTasks(std::vector<std::string> &tasksVector) const;
 
 	// Returns a string containing the details of a specific task.
 	// The string will be formatted ready for output.
@@ -47,17 +47,17 @@ public:
 
 	// Returns a string containing the details of the current project.
 	// The string will be formatted ready to output.
-	std::string printProjectDetails();
+	std::string printProjectDetails() const;
 
 	// Returns a string containing the details of all the projects.
 	// The string will be formatted ready to output.
-	std::string printAllProjectDetails();
+	std::string printAllProjectDetails() const;
 
 	// Get the total number of projects in the project manager.
-	int numberOfProjects();
+	int numberOfProjects() const;
 
 	// Save the project management information to the current text file being used.
-	void save();
+	void save() const;
 
 	// Load the project management information from the current text file being used. 
 	// Returns a string containing the project information for each project in the file.
@@ -70,7 +70,7 @@ public:
 	void setupFile();
 
 	// Returns a string containing the relative file path.
-	std::string getFilePath() { return "../TextFiles/" + fileName; };
+	std::string getFilePath()  const { return "../TextFiles/" + fileName; };
 
 	// Set the current project being used by assigning a value to the projectPointer.
 	// The project number should be the position of the project within the projects vector, not the index.

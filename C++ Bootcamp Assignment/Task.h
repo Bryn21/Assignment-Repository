@@ -20,16 +20,16 @@ public:
 	// Returns a string containing the details of the task.
 	// The details will be the name, task description, start date and deadline.
 	// The string will be formatted ready to output.
-	std::string getDetails();
+	std::string getDetails() const;
 	// Returns a string containing the details for a specific time allocation.
 	// The string will be formatted ready for output.
-	std::string getTADetails(int TANumber);
+	std::string getTADetails(int TANumber) const;
 	// Returns the formatted start date for the task as a string.
-	std::string getStartDate();
+	std::string getStartDate() const;
 	// Returns the formatted deadline date for the task as a string.
-	std::string getDeadline();
+	std::string getDeadline() const;
 	// Returns the name of the task.
-	std::string getTaskName() { return name; }
+	std::string getTaskName() const { return name; }
 
 	void addTimeAllocation(TimeAllocation *ta);
 
@@ -45,10 +45,10 @@ public:
 	std::string getTAsString();
 
 	// Create a string used to save the task to the text file.
-	std::string save();
+	std::string save() const;
 
 	// The total time spent on all of the time allocations for this task (in minutes).
-	int getTotalTaskTime();
+	int getTotalTaskTime() const;
 
 	// Sort the time allocations into the correct order, from earliest to latest.
 	void sortTAOrder();

@@ -9,7 +9,7 @@ Research::~Research()
 {
 }
 
-std::string Research::getDetails()
+std::string Research::getDetails() const
 {
 	std::ostringstream oss;
 
@@ -21,7 +21,7 @@ std::string Research::getDetails()
 	return oss.str();
 }
 
-std::string Research::save()
+std::string Research::save() const
 {
 	std::ostringstream oss;
 

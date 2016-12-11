@@ -9,7 +9,7 @@ Meeting::~Meeting()
 {
 }
 
-std::string Meeting::getDetails()
+std::string Meeting::getDetails() const
 {
 	std::ostringstream oss;	
 
@@ -22,7 +22,7 @@ std::string Meeting::getDetails()
 	return oss.str();
 }
 
-std::string Meeting::save()
+std::string Meeting::save() const
 {
 	std::ostringstream oss;
 

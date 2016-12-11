@@ -38,15 +38,15 @@ int main(int argc, char *argv[])
 	{
 		std::cout << pm.printProjectDetails();
 		std::cout << EL << "Menu options:" << EL;
-		std::cout << EL << "'1' - Display current project.";		
-		std::cout << EL << "'2' - Display only the time allocations for the current project.";
-		std::cout << EL << "'3' - Add a new time allocation.";
-		std::cout << EL << "'4' - Add a new task.";
-		std::cout << EL << "'5' - Add a new project.";
-		std::cout << EL << "'6' - Delete a time allocation.";
-		std::cout << EL << "'7' - Delete a task.";
-		std::cout << EL << "'8' - Delete the current project.";
-		std::cout << EL << "'9' - Save changes made to the project.";
+		std::cout << EL << "'1'  - Display current project.";		
+		std::cout << EL << "'2'  - Display only the time allocations for the current project.";
+		std::cout << EL << "'3'  - Add a new time allocation.";
+		std::cout << EL << "'4'  - Add a new task.";
+		std::cout << EL << "'5'  - Add a new project.";
+		std::cout << EL << "'6'  - Delete a time allocation.";
+		std::cout << EL << "'7'  - Delete a task.";
+		std::cout << EL << "'8'  - Delete the current project.";
+		std::cout << EL << "'9'  - Save changes made to the project.";
 		std::cout << EL << "'10' - Choose another project from the text file. ";
 		std::cout << EL << "'11' - Load file or create a new file. ";
 		
@@ -1366,6 +1366,7 @@ void chooseProject(ProjectManager& pm)
 
 	while (true)
 	{
+		// If there are no projects then a new project must be created and added.
 		if (pm.numberOfProjects() > 0)
 		{
 			std::cout << EL << "Which project would you like to use?" << EL;

@@ -9,7 +9,7 @@ WorkDone::~WorkDone()
 {
 }
 
-std::string WorkDone::getDetails()
+std::string WorkDone::getDetails() const
 {
 	std::ostringstream oss;
 
@@ -21,7 +21,7 @@ std::string WorkDone::getDetails()
 	return oss.str();
 }
 
-std::string WorkDone::save()
+std::string WorkDone::save() const
 {
 	std::ostringstream oss;
 
